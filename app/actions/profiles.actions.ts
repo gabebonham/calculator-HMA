@@ -1,0 +1,55 @@
+'use service'
+
+import { cookies } from 'next/headers'
+import { mockProfiles } from '../mocks/profile.mocks'
+import { decodeJwt, decodeJwtFake } from '@/lib/utils'
+import { JwtPayload } from 'jsonwebtoken'
+import { getTokenPayload } from './token.actions'
+
+export async function getProfiles() {
+  try {
+    return { success: true, data: mockProfiles }
+  } catch (e: any) {
+    console.log(e)
+    return { success: false, error: e }
+  }
+}
+export async function getProfileById(id: string) {
+  try {
+    const targetProfile = mockProfiles.find((profile) => profile.id == id)
+    if (!targetProfile)
+      return { success: false, error: Error('Profile not found') }
+    else return { success: true, data: targetProfile }
+  } catch (e: any) {
+    console.log(e)
+    return { success: false, error: e }
+  }
+}
+export async function getProfileByCookie() {
+  try {
+    // const cookieStore = await cookies()
+    // const token = cookieStore.get('token')
+    // const payload = decodeJwt(token?.value as string)
+    // const userId = (payload?.payload as JwtPayload).sub
+    const payload = await getTokenPayload()
+    const targetProfileRes = await getProfileByUserId(payload.sub)
+    const targetProfile = targetProfileRes.data
+    if (!targetProfile)
+      return { success: false, error: Error('Profile not found') }
+    else return { success: true, data: targetProfile }
+  } catch (e: any) {
+    console.log(e)
+    return { success: false, error: e }
+  }
+}
+export async function getProfileByUserId(id: string) {
+  try {
+    const targetProfile = mockProfiles.find((profile) => profile.userId == id)
+    if (!targetProfile)
+      return { success: false, error: Error('Profile not found') }
+    else return { success: true, data: targetProfile }
+  } catch (e: any) {
+    console.log(e)
+    return { success: false, error: e }
+  }
+}

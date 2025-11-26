@@ -1,0 +1,103 @@
+import { Profile } from '../models/profile.entity'
+import {
+  basicPlanMock,
+  premiumPlanMock,
+  standardPlanMock,
+  ultimatePlanMock,
+} from './plan.mocks'
+import { mockUsers } from './users.mocks'
+export const uuid = () =>
+  crypto.randomUUID() as `${string}-${string}-${string}-${string}-${string}`
+
+export const mockProfiles: Profile[] = [
+  new Profile(
+    uuid(),
+    mockUsers[0].id,
+    'Alice Johnson',
+    basicPlanMock.id,
+    'alice@example.com',
+    new Date('2024-01-10'),
+    basicPlanMock,
+  ),
+  new Profile(
+    uuid(),
+    mockUsers[1].id,
+    'Gabriel Souza',
+    ultimatePlanMock.id,
+    'gabriel@example.com',
+    new Date('2024-02-18'),
+    ultimatePlanMock,
+  ),
+  new Profile(
+    uuid(),
+    mockUsers[2].id,
+    'Lucas Mendes',
+    premiumPlanMock.id,
+    'lucas@example.com',
+    new Date('2024-03-22'),
+    premiumPlanMock,
+  ),
+  new Profile(
+    uuid(),
+    mockUsers[3].id,
+    'Mariana Silva',
+    basicPlanMock.id,
+    'mariana@example.com',
+    new Date('2024-04-05'),
+    basicPlanMock,
+  ),
+  new Profile(
+    uuid(),
+    mockUsers[4].id,
+    'Carlos Pereira',
+    ultimatePlanMock.id,
+    'carlos@example.com',
+    new Date('2024-05-14'),
+    ultimatePlanMock,
+  ),
+  new Profile(
+    uuid(),
+    mockUsers[5].id,
+    'Fernanda Lima',
+    standardPlanMock.id,
+    'fernanda@example.com',
+    new Date('2024-06-01'),
+    standardPlanMock,
+  ),
+  new Profile(
+    uuid(),
+    mockUsers[6].id,
+    'Rafael Alves',
+    standardPlanMock.id,
+    'rafael@example.com',
+    new Date('2024-06-28'),
+    standardPlanMock,
+  ),
+  new Profile(
+    uuid(),
+    mockUsers[7].id,
+    'Julia Castro',
+    ultimatePlanMock.id,
+    'julia@example.com',
+    new Date('2024-07-07'),
+    ultimatePlanMock,
+  ),
+  new Profile(
+    uuid(),
+    mockUsers[8].id,
+    'Thiago Gomes',
+    premiumPlanMock.id,
+    'thiago@example.com',
+    new Date('2024-08-19'),
+    premiumPlanMock,
+  ),
+  new Profile(
+    uuid(),
+    mockUsers[9].id,
+    'Beatriz Rocha',
+    basicPlanMock.id,
+    'beatriz@example.com',
+    new Date('2024-09-11'),
+    basicPlanMock,
+  ),
+]
