@@ -6,9 +6,9 @@ import { getProfileByCookie, getProfiles } from '@/app/actions/profiles.actions'
 import { getPlans } from '@/app/actions/plans.actions'
 import { getTokenPayload } from '@/app/actions/token.actions'
 import { getCalculationTemplate } from '@/app/actions/calculations.actions'
-import { calculationMapper } from '@/app/mappers/calculation.mapper'
 import { profileMapper, profilesMapper } from '@/app/mappers/profile.mapper'
 import { plansMapper } from '@/app/mappers/plan.mapper'
+import { calculationTemplateMapper } from '@/app/mappers/calculation-template.mapper'
 
 export default async function Dashboard() {
   const profileRes = await getProfileByCookie()
@@ -60,7 +60,9 @@ export default async function Dashboard() {
               profilesRes.success &&
               (profilesMapper(profilesRes.data as any) as any[])
             }
-            calculationTemplate={calculationMapper(calculaionRes.data as any)}
+            calculationTemplate={calculationTemplateMapper(
+              calculaionRes.data as any,
+            )}
           />
         ) : (
           <DashboardUser

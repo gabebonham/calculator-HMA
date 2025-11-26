@@ -11,34 +11,12 @@ import { Plan } from '@/app/models/plan.entity'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-function mockCalculation(): Calculation {
-  return new Calculation(
-    uuid() as any,
-    uuid() as any,
-    Math.floor(Math.random() * 5) + 1, // INP_planCode
-    Math.floor(Math.random() * 3) + 1, // INP_step
-    Number((Math.random() * 50).toFixed(2)), // INP_stopLossTrade
-    Number((Math.random() * 100).toFixed(2)), // INP_safeValue
-    Number((Math.random() * 10000).toFixed(2)), // INP_currentBalance
-    Number((Math.random() * 10).toFixed(4)), // INP_coinPairValue
-    Number((Math.random() * 0.5).toFixed(2)), // INPPA_targetProfitLots
-    Math.floor(Math.random() * 100), // OUTPA_targetProfitPoints
-    Math.floor(Math.random() * 200), // OUTPA_stopLossPoints
-    Number((Math.random() * 0.5).toFixed(2)), // OUTRA_stopLossLots
-    new Date(),
-    undefined,
-  )
-}
 
-export const calculationsMock = Array.from({ length: 10 }, () =>
-  mockCalculation(),
-)
 interface Props {
   profile: Profile
   plans: Plan[]
 }
 export default function DashboardUser({ profile, plans }: Props) {
-  const calculations = calculationsMock
   return (
     <section className="px-4 py-8 lg:px-8 space-y-6">
       <div className="lg:flex lg:items-center lg:justify-between space-y-4">
@@ -81,7 +59,7 @@ export default function DashboardUser({ profile, plans }: Props) {
           <h1 className="font-bold text-xl">Seus Calculos Recentes</h1>
         </div>
         <div>
-          <CalculationsTable calculations={calculations} />
+          <CalculationsTable calculations={profile.calculations} />
         </div>
       </div>
     </section>

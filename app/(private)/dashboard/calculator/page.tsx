@@ -5,7 +5,7 @@ import { getProfileByCookie } from '@/app/actions/profiles.actions'
 import { profileMapper } from '@/app/mappers/profile.mapper'
 import { CalculationTemplate } from '@/app/models/calculation-template.entity'
 import { getCalculationTemplate } from '@/app/actions/calculations.actions'
-import { calculationMapper } from '@/app/mappers/calculation.mapper'
+import { calculationTemplateMapper } from '@/app/mappers/calculation-template.mapper'
 export default async function CalculatePage() {
   const profileRes = await getProfileByCookie()
   const calculationRes = await getCalculationTemplate()
@@ -19,7 +19,7 @@ export default async function CalculatePage() {
       <CalculatePageComponent
         calculationTemplate={
           calculationRes.success &&
-          (calculationMapper(calculationRes.data as any) as any)
+          (calculationTemplateMapper(calculationRes.data as any) as any)
         }
       />
     </section>

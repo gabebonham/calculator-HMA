@@ -1,4 +1,5 @@
 import { Profile } from '../models/profile.entity'
+import { calculationsMapper } from './calculation.mapper'
 import { planMapper } from './plan.mapper'
 
 export function profileMapper(profile: Profile) {
@@ -7,6 +8,7 @@ export function profileMapper(profile: Profile) {
     userId: profile.userId,
     name: profile.name,
     email: profile.email,
+    calculations: calculationsMapper(profile.calculations),
     plan: planMapper(profile.plan),
     createdAt: profile.createdAt,
     planId: profile.planId,

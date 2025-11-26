@@ -1,33 +1,26 @@
-import { CalculationTemplate } from '../models/calculation-template.entity'
+import { Calculation } from '../models/calculation.entity'
 
-export function calculationMapper(calculation: CalculationTemplate) {
+export function calculationMapper(calculation: Calculation) {
   return {
     id: calculation.id,
-    planDescription: calculation.planDescription,
-    initialBalance: calculation.initialBalance,
+    profileId: calculation.profileId,
 
-    target: calculation.target,
-    breachDown: calculation.breachDown,
-    margemDD: calculation.margemDD,
-    targetProfit: calculation.targetProfit,
-    ddDay: calculation.ddDay,
+    INP_planCode: calculation.INP_planCode,
+    INP_step: calculation.INP_step,
+    INP_stopLossTrade: calculation.INP_stopLossTrade,
+    INP_safeValue: calculation.INP_safeValue,
+    INP_currentBalance: calculation.INP_currentBalance,
+    INP_coinPairValue: calculation.INP_coinPairValue,
 
-    leverageFunded: calculation.leverageFunded,
-    commissionFunded: calculation.commissionFunded,
-    leverageReal: calculation.leverageReal,
-    commissionReal: calculation.commissionReal,
+    INPPA_targetProfitLots: calculation.INPPA_targetProfitLots,
+    OUTPA_targetProfitPoints: calculation.OUTPA_targetProfitPoints,
+    OUTPA_stopLossPoints: calculation.OUTPA_stopLossPoints,
+    OUTRA_stopLossLots: calculation.OUTRA_stopLossLots,
 
-    propFirmAccountNumber: calculation.propFirmAccountNumber,
-    totalGasto: calculation.totalGasto,
-
-    targetProfitPA: calculation.targetProfitPA,
-    stopLossPA: calculation.stopLossPA,
-
-    stopLossRA: calculation.stopLossRA,
-    takeRA: calculation.takeRA,
     createdAt: calculation.createdAt,
   }
 }
-export function calculationsMapper(calculations: CalculationTemplate[]) {
+
+export function calculationsMapper(calculations: Calculation[]) {
   return calculations.map(calculationMapper)
 }
