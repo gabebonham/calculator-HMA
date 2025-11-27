@@ -1,5 +1,6 @@
 'use server'
-
+import { createUser, findUserByEmail } from '@/app/services/users.service'
+import { hashPassword } from '@/lib/password'
 export async function sendCode(email: string) {
   try {
     const validEmail = email == 'user@gmail.com'
@@ -37,27 +38,20 @@ export async function updatePassword(email: string, password: string) {
     return { success: false, error: e.message }
   }
 }
-export async function login(email: string, password: string) {
-  try {
-    const validEmail = email == 'user@gmail.com'
-    const validPassword = password == '123'
-    let error
-    if (!validEmail) error = 'Credênciais inválidas.'
-    if (!validPassword) error = 'Credênciais inválidas.'
-    return { success: validEmail && validPassword, error }
-  } catch (e: any) {
-    console.log(`Error (login): ${e.message}`)
-    return { success: false, error: e.message }
-  }
-}
+
 export async function register(
   email: string,
   password: string,
   username: string,
 ) {
   try {
-    console.log(email)
-    return { success: true }
+    const res = await createUser({
+      email,
+      username,
+      role: 'user',
+      password: await hashPassword(password),
+    })
+    return { success: res.success, data: res.data }
   } catch (e: any) {
     console.log(`Error (register): ${e.message}`)
     return { success: false, error: e.message }

@@ -1,0 +1,18 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { logOutAction } from "@/actions/auth/logout-action";
+
+export default function Page() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Are you sure you want to sign out?</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form action={logOutAction}>
+          <Button type="submit">Log out</Button>
+        </form>
+      </CardContent>
+    </Card>
+  );
+}

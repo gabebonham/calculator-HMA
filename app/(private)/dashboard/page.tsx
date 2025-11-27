@@ -18,12 +18,16 @@ export default async function Dashboard() {
   const calculaionRes = await getCalculationTemplate()
   if (!profileRes.success)
     return (
-      <div>Erro ao buscar perfil : {profileRes.error && profileRes.error}</div>
+      <div>
+        Erro ao buscar perfil :{' '}
+        {profileRes.error && profileRes.error.toString()}
+      </div>
     )
   if (!profilesRes.success)
     return (
       <div>
-        Erro ao buscar perfís : {profilesRes.error && profilesRes.error}
+        Erro ao buscar perfís :{' '}
+        {profilesRes.error && profilesRes.error.toString()}
       </div>
     )
   if (!calculaionRes.success)
@@ -34,7 +38,11 @@ export default async function Dashboard() {
       </div>
     )
   if (!plansRes.success)
-    return <div>Erro ao buscar planos : {plansRes.error && plansRes.error}</div>
+    return (
+      <div>
+        Erro ao buscar planos : {plansRes.error && plansRes.error.toString()}
+      </div>
+    )
   if (!profileRes.data)
     return (
       <section className="h-full">

@@ -1,0 +1,457 @@
+{
+  "id": "8a489ce2-0782-40a0-9adc-473c6d9d7a89",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.calculation_templates": {
+      "name": "calculation_templates",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "plan_description": {
+          "name": "plan_description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "initial_balance": {
+          "name": "initial_balance",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "target": {
+          "name": "target",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "breach_down": {
+          "name": "breach_down",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "margem_dd": {
+          "name": "margem_dd",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "target_profit": {
+          "name": "target_profit",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dd_day": {
+          "name": "dd_day",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "leverage_funded": {
+          "name": "leverage_funded",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "commission_funded": {
+          "name": "commission_funded",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "leverage_real": {
+          "name": "leverage_real",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "commission_real": {
+          "name": "commission_real",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "prop_firm_account_number": {
+          "name": "prop_firm_account_number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total_gasto": {
+          "name": "total_gasto",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "target_profit_pa": {
+          "name": "target_profit_pa",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stop_loss_pa": {
+          "name": "stop_loss_pa",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stop_loss_ra": {
+          "name": "stop_loss_ra",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "take_ra": {
+          "name": "take_ra",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.calculations": {
+      "name": "calculations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "profile_id": {
+          "name": "profile_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "inp_plan_code": {
+          "name": "inp_plan_code",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "inp_step": {
+          "name": "inp_step",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "inp_stop_loss_trade": {
+          "name": "inp_stop_loss_trade",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "inp_safe_value": {
+          "name": "inp_safe_value",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "inp_current_balance": {
+          "name": "inp_current_balance",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "inp_coin_pair_value": {
+          "name": "inp_coin_pair_value",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "inppa_target_profit_lots": {
+          "name": "inppa_target_profit_lots",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "outpa_target_profit_points": {
+          "name": "outpa_target_profit_points",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "outpa_stop_loss_points": {
+          "name": "outpa_stop_loss_points",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "outra_stop_loss_lots": {
+          "name": "outra_stop_loss_lots",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "calculations_profile_id_profiles_id_fk": {
+          "name": "calculations_profile_id_profiles_id_fk",
+          "tableFrom": "calculations",
+          "tableTo": "profiles",
+          "columnsFrom": [
+            "profile_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.plans": {
+      "name": "plans",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "period": {
+          "name": "period",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "price": {
+          "name": "price",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "color": {
+          "name": "color",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bgcolor": {
+          "name": "bgcolor",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.profiles": {
+      "name": "profiles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "plan_id": {
+          "name": "plan_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "profiles_user_id_users_id_fk": {
+          "name": "profiles_user_id_users_id_fk",
+          "tableFrom": "profiles",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "profiles_plan_id_plans_id_fk": {
+          "name": "profiles_plan_id_plans_id_fk",
+          "tableFrom": "profiles",
+          "tableTo": "plans",
+          "columnsFrom": [
+            "plan_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

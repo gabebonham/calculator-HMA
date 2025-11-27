@@ -8,9 +8,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { toast } from 'sonner'
-import { login } from '../../_actions/auth.actions'
+import { signIn } from 'next-auth/react'
 import { LoginSchema } from '@/lib/zod.config'
-import { email } from 'zod'
 import ErrorDisplay from '@/components/shared/ErrorDisplay'
 
 export default function LoginPageComponent() {
@@ -21,9 +20,9 @@ export default function LoginPageComponent() {
   const passwordRef = useRef<HTMLInputElement>(null)
   const handleToast = () => {
     toast.promise(toastLoginWrapper(), {
-      loading: 'Cadastrando...',
+      loading: 'Logando...',
       success: () => {
-        // router.push('/dashboard')
+        router.push('/dashboard')
         return `Usuário logado.`
       },
       error: 'Erro ao logar usuário.',
@@ -31,11 +30,9 @@ export default function LoginPageComponent() {
   }
   const toastLoginWrapper = async () => {
     const result = await handleLogin()
-
     if (!result) {
       throw new Error(result || 'Erro ao logar usuário')
     }
-
     return result
   }
   const handleLogin = async () => {
@@ -50,13 +47,13 @@ export default function LoginPageComponent() {
       return false
     }
 
-    const res = await login(emailValue!, passwordValue!)
-    if (res.success) {
-      return true
-    } else {
-      setError(res.error!)
-      return false
-    }
+    await signIn('credentials', {
+      redirect: true, // true para redirecionar após login
+      callbackUrl: '/dashboard', // rota pós-login
+      email: emailValue,
+      password: passwordValue,
+    })
+    return true
   }
   const keyDownHandler = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key == 'Enter') {
@@ -88,7 +85,7 @@ export default function LoginPageComponent() {
           <Input
             ref={emailRef}
             onKeyDown={keyDownHandler}
-            className="h-12 bg-white border-primary focus-visible:ring-primary/30"
+            className="h-12 bg-white border-primary focus-visible:ring-primary/30 rounded-lg"
           />
         </div>
         <div className="space-y-2">

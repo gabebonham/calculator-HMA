@@ -95,7 +95,7 @@ export default function RegisterPageComponent() {
           <Input
             onKeyDown={keyDownHandler}
             ref={emailRef}
-            className="h-12 bg-white border-primary focus-visible:ring-primary/30"
+            className="h-12 bg-white border-primary focus-visible:ring-primary/30 rounded-lg"
           />
         </div>
         <div className="space-y-2">
@@ -103,7 +103,7 @@ export default function RegisterPageComponent() {
           <Input
             onKeyDown={keyDownHandler}
             ref={usernameRef}
-            className="h-12 bg-white border-primary focus-visible:ring-primary/30"
+            className="h-12 bg-white border-primary focus-visible:ring-primary/30 rounded-lg"
           />
         </div>
         <div className="space-y-2">
@@ -164,7 +164,10 @@ export default function RegisterPageComponent() {
         </div>
       </div>
       <div>
-        <Button onClick={handleToast} className="h-12 w-full font-bold">
+        <Button
+          onClick={handleToast}
+          className="h-12 w-full font-bold rounded-lg"
+        >
           Cadastrar
         </Button>
       </div>

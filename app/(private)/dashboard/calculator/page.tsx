@@ -1,4 +1,3 @@
-import { uuid } from '@/lib/utils'
 import Header from '../_components/Header'
 import CalculatePageComponent from './_component/CalculatePage'
 import { getProfileByCookie } from '@/app/actions/profiles.actions'

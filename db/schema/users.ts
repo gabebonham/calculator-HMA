@@ -1,0 +1,20 @@
+import { pgTable, timestamp, text, uuid } from 'drizzle-orm/pg-core'
+import { createId } from '@/lib/id'
+
+export const users = pgTable('users', {
+  id: uuid()
+    .primaryKey()
+    .$defaultFn(() => createId()),
+  username: text(),
+  email: text().notNull().unique(),
+  role: text(),
+  password: text(),
+  createdAt: timestamp().notNull().defaultNow(),
+  updatedAt: timestamp()
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+})
+
+export type SelectUser = typeof users.$inferSelect
+export type InsertUser = typeof users.$inferInsert

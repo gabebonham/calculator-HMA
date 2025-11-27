@@ -1,0 +1,63 @@
+"use server";
+
+import { redirect } from "next/navigation";
+import { db } from "@/db/db";
+import { users } from "@/db/schema/users";
+import { eq } from "drizzle-orm";
+import { comparePassword } from "@/lib/password";
+import { createSession } from "@/lib/session";
+
+export type LogInState = {
+  message?: string;
+};
+
+export async function logInAction(
+  prevState: LogInState,
+  formData: FormData,
+): Promise<LogInState> {
+  "use server";
+  try {
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    if (!email || !password) {
+      return {
+        message: "Email and password are required.",
+      };
+    }
+
+    const user = await db.query.users.findFirst({
+      where: eq(users.email, email),
+    });
+
+    if (!user) {
+      return {
+        message: "Invalid email or password.",
+      };
+    }
+
+    if (!user.password) {
+      return {
+        message: "Account does not have a password set.",
+      };
+    }
+
+    const isValidPassword = await comparePassword(password, user.password);
+    if (!isValidPassword) {
+      return {
+        message: "Invalid email or password.",
+      };
+    }
+
+    await createSession({
+      id: user.id,
+      email: user.email,
+      role: user.role || "user",
+    });
+  } catch (error) {
+    return {
+      message: "Log in failed.",
+    };
+  }
+  redirect("/dashboard");
+}

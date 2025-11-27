@@ -1,15 +1,9 @@
 import { z } from 'zod'
 
 export const LoginSchema = z.object({
-  username: z.string({
-    error: 'Nome de usuário é obrigatório',
-  }),
-  code: z.number({
-    error: 'Código é obrigatório',
-  }),
   email: z.string().email({ message: 'Email inválido' }), // Esta você já tinha
   password: z
-    .string({ error: 'Senha inválida' })
+    .string({ message: 'Senha inválida' })
     .min(8, { message: 'A senha deve conter pelo menos 8 caracteres' }) // Tradução para 'Too small'
     .regex(
       /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/,
@@ -19,10 +13,10 @@ export const LoginSchema = z.object({
 
 export const RegisterSchema = z
   .object({
-    username: z.string({ error: 'Nome inválido' }),
-    email: z.email({ error: 'Email inválido' }),
+    username: z.string({ message: 'Nome inválido' }),
+    email: z.string({ message: 'Email inválido' }),
     password: z
-      .string({ error: 'Senha inválida' })
+      .string({ message: 'Senha inválida' })
       .min(8)
       .regex(
         /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/,

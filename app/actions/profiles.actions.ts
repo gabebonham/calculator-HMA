@@ -1,8 +1,7 @@
-'use service'
+'use server'
 
 import { cookies } from 'next/headers'
 import { mockProfiles } from '../mocks/profile.mocks'
-import { decodeJwt, decodeJwtFake } from '@/lib/utils'
 import { JwtPayload } from 'jsonwebtoken'
 import { getTokenPayload } from './token.actions'
 
@@ -32,7 +31,7 @@ export async function getProfileByCookie() {
     // const payload = decodeJwt(token?.value as string)
     // const userId = (payload?.payload as JwtPayload).sub
     const payload = await getTokenPayload()
-    const targetProfileRes = await getProfileByUserId(payload.sub)
+    const targetProfileRes = await getProfileByUserId(payload.sub as string)
     const targetProfile = targetProfileRes.data
     if (!targetProfile)
       return { success: false, error: Error('Profile not found') }
