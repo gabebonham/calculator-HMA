@@ -22,6 +22,10 @@ export const plans = pgTable('plans', {
   bgcolor: text().notNull(),
 
   createdAt: timestamp().notNull().defaultNow(),
+  updatedAt: timestamp()
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 })
 
 export type SelectPlan = typeof plans.$inferSelect

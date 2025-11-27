@@ -36,6 +36,10 @@ export const calculationTemplates = pgTable('calculation_templates', {
   takeRA: doublePrecision().notNull(),
 
   createdAt: timestamp().notNull().defaultNow(),
+  updatedAt: timestamp()
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 })
 
 export type SelectCalculationTemplate = typeof calculationTemplates.$inferSelect

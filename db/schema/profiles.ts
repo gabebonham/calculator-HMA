@@ -20,6 +20,10 @@ export const profiles = pgTable('profiles', {
     .references(() => plans.id, { onDelete: 'cascade' }),
 
   createdAt: timestamp().notNull().defaultNow(),
+  updatedAt: timestamp()
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 })
 
 export type SelectProfile = typeof profiles.$inferSelect

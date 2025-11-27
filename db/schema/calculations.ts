@@ -29,7 +29,10 @@ export const calculations = pgTable('calculations', {
   OUTPA_stopLossPoints: doublePrecision().notNull(),
   OUTRA_stopLossLots: doublePrecision().notNull(),
 
-  createdAt: timestamp().notNull().defaultNow(),
+  createdAt: timestamp().notNull().defaultNow(),updatedAt: timestamp()
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
 })
 
 export type SelectCalculation = typeof calculations.$inferSelect
