@@ -1,4 +1,5 @@
 // Tipagens simples
+import { CalculationTemplate } from '@/app/models/calculation-template.entity'
 type PlanRow = Record<string, number | string | null>
 type Inputs = Record<string, number | string | null>
 type Constants = Record<string, number | string | null>
@@ -157,4 +158,73 @@ export function calculateHantecRow(
 
   // Retornar todos os campos calculados
   return out
+}
+//
+//
+//
+
+export interface HantecInputs {
+  INP_planCode: number
+  INP_step: number
+  INP_stopLossTrade: number
+  INP_safeValue: number
+  INP_currentBalance: number
+  INP_coinPairValue: number
+  INPPA_targetProfitLots: number
+}
+
+export interface HantecOutputs {
+  OUTPA_targetProfitPoints: number
+  OUTPA_stopLossPoints: number
+  OUTRA_stopLossLots: number
+}
+
+/**
+ * Executa os cálculos equivalentes à aba HANTEC
+ * usando (template + inputs)
+ */
+export function calcularHantec(
+  template: CalculationTemplate,
+  input: HantecInputs,
+): HantecOutputs {
+  const {
+    initialBalance,
+    targetProfit,
+    commissionFunded,
+    leverageFunded,
+    commissionReal,
+    leverageReal,
+  } = template
+
+  const {
+    INP_stopLossTrade,
+    INP_safeValue,
+    INP_coinPairValue,
+    INPPA_targetProfitLots,
+  } = input
+
+  // -------------------------------------------
+  // AQUI VEM AS FÓRMULAS EQUIVALENTES DO EXCEL
+  // -------------------------------------------
+
+  // === TAKE PROFIT (PA) em POINTS ===
+  // Planilha: targetPoints = lots * targetProfit * coinPairValue
+  const OUTPA_targetProfitPoints =
+    INPPA_targetProfitLots * targetProfit * INP_coinPairValue
+
+  // === STOP LOSS (PA) em POINTS ===
+  // stopLossPoints = stopLossTrade * leverageFunded * coinPairValue
+  const OUTPA_stopLossPoints =
+    INP_stopLossTrade * leverageFunded * INP_coinPairValue
+
+  // === STOP LOSS (RA) em LOTS ===
+  // stopLossLots = (stopLossTrade * coinPairValue) / (leverageReal * commissionReal)
+  const OUTRA_stopLossLots =
+    (INP_stopLossTrade * INP_coinPairValue) / (leverageReal * commissionReal)
+
+  return {
+    OUTPA_targetProfitPoints,
+    OUTPA_stopLossPoints,
+    OUTRA_stopLossLots,
+  }
 }
