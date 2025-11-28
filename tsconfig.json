@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,16 +19,10 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
-  "types": [
-    "node",
-    "next",
-    "next-auth"
-  ],
+  "types": ["node", "next", "next-auth"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
@@ -45,7 +35,6 @@
     "**/*.tsx",
     "types"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"],
+  "type": "module"
 }

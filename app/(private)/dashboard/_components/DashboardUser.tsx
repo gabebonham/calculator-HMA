@@ -4,7 +4,6 @@ import { Profile } from '@/app/models/profile.entity'
 import { Button } from '@/components/ui/button'
 import CalculationsTable from './CalculationsTable'
 import { Calculation } from '@/app/models/calculation.entity'
-import { uuid } from '@/lib/utils'
 import Link from 'next/link'
 import UserLicensesCard from './UserPlansCard'
 import { Plan } from '@/app/models/plan.entity'
@@ -13,8 +12,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 interface Props {
-  profile: Profile
-  plans: Plan[]
+  profile: any
+  plans: any[]
 }
 export default function DashboardUser({ profile, plans }: Props) {
   return (

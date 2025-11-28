@@ -22,9 +22,9 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 interface Props {
-  calculationTemplate: CalculationTemplate
-  profiles: Profile[]
-  adminProfile: Profile
+  calculationTemplate: any
+  profiles: any[]
+  adminProfile: any
 }
 export default function DashboardAdmin({
   calculationTemplate,

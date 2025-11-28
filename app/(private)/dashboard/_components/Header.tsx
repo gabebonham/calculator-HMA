@@ -5,7 +5,7 @@ import { Profile } from '@/app/models/profile.entity'
 import { User as UserModel } from '@/app/models/user.entity'
 import { Button } from '@/components/ui/button'
 interface Props {
-  profile?: Profile
+  profile?: any
 }
 export default function Header({ profile }: Props) {
   if (profile)

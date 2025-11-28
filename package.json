@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "drizzle:push": "npx drizzle-kit push",
+    "seed": "node -r esbuild-register db/migrations/migrate.ts"
   },
   "dependencies": {
     "@auth/core": "^0.34.3",

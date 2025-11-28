@@ -1,5 +1,5 @@
 import { pgTable, timestamp, text, uuid } from 'drizzle-orm/pg-core'
-import { createId } from '@/lib/id'
+import { createId } from '../../lib/id'
 
 export const users = pgTable('users', {
   id: uuid()
@@ -9,8 +9,8 @@ export const users = pgTable('users', {
   email: text().notNull().unique(),
   role: text(),
   password: text(),
-  createdAt: timestamp().notNull().defaultNow(),
-  updatedAt: timestamp()
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
     .notNull()
     .defaultNow()
     .$onUpdate(() => new Date()),

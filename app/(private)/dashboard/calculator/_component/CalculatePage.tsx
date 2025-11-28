@@ -1,7 +1,6 @@
 'use client'
 
 import { CalculationTemplate } from '@/app/models/calculation-template.entity'
-import CalculationTemplateInfoCard from '../../_components/CalculationTemplateInfoCard'
 import InputCard from './InputCard'
 import OutputCard from './OutputCard'
 import { Button } from '@/components/ui/button'
@@ -23,7 +22,7 @@ export default function CalculatePageComponent({ calculationTemplate }: Props) {
         </Link>
       </div>
       <div className="space-y-1">
-        <h1 className="text-3xl font-bold">Calculadora Forex</h1>
+        <h1 className="text-3xl font-bold">Calculator HMA</h1>
         <p className="text-muted-foreground">
           Informe os parâmetros de seu trade para calcular os detalhes.
         </p>

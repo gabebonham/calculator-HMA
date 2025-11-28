@@ -2,11 +2,10 @@
 
 import { Plan } from '@/app/models/plan.entity'
 import LicenseCard from './PlanCard'
-import { uuid } from '@/lib/utils'
 import { getPlainPlans } from '@/lib/plans.utils'
 import { plansMapper } from '@/app/mappers/plan.mapper'
 interface Props {
-  plans: Plan[]
+  plans: any[]
 }
 export default function PlanSection({ plans }: Props) {
   const getColor = (plan: any) => {
@@ -35,6 +34,7 @@ export default function PlanSection({ plans }: Props) {
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8 gap-y-4">
         {plansMapper(plans).map((plan) => (
           <LicenseCard
+            key={plan.id}
             bgcolor={`${plan.bgcolor}`}
             color={`${plan.color}`}
             plan={plan}

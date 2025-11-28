@@ -1,5 +1,6 @@
 import { pgTable, uuid, text, timestamp } from 'drizzle-orm/pg-core'
-import { createId } from '@/lib/id'
+import { createId } from '../../lib/id'
+
 import { plans } from './plans'
 import { users } from './users'
 
@@ -8,7 +9,7 @@ export const profiles = pgTable('profiles', {
     .primaryKey()
     .$defaultFn(() => createId()),
 
-  userId: uuid()
+  userId: uuid('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
 
@@ -19,8 +20,8 @@ export const profiles = pgTable('profiles', {
     .notNull()
     .references(() => plans.id, { onDelete: 'cascade' }),
 
-  createdAt: timestamp().notNull().defaultNow(),
-  updatedAt: timestamp()
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
     .notNull()
     .defaultNow()
     .$onUpdate(() => new Date()),

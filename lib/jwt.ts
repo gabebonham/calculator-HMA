@@ -1,33 +1,33 @@
-import jwt from "jsonwebtoken";
-import { env } from "./env";
+import jwt from 'jsonwebtoken'
+import { env } from './env'
 
 export interface JWTPayload {
-  id: string;
-  email: string;
-  role: string;
+  id: string
+  email: string
+  role: string
 }
 
-const JWT_SECRET = env.JWT_SECRET;
-const JWT_EXPIRES_IN = "7d"; // Token expires in 7 days
+const JWT_SECRET = env.JWT_SECRET
+const JWT_EXPIRES_IN = '7d' // Token expires in 7 days
 
 export function signToken(payload: JWTPayload): string {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN })
 }
 
 export function verifyToken(token: string): JWTPayload | null {
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as JWTPayload;
-    return decoded;
+    const decoded = jwt.verify(token, JWT_SECRET) as JWTPayload
+    return decoded
   } catch (error) {
-    return null;
+    return null
   }
 }
 
 export function decodeToken(token: string): JWTPayload | null {
   try {
-    const decoded = jwt.decode(token) as JWTPayload;
-    return decoded;
+    const decoded = jwt.decode(token) as JWTPayload
+    return decoded
   } catch (error) {
-    return null;
+    return null
   }
 }

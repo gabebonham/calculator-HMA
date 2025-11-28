@@ -5,38 +5,38 @@ import {
   doublePrecision,
   timestamp,
 } from 'drizzle-orm/pg-core'
-import { createId } from '@/lib/id'
+import { createId } from '../../lib/id'
 
 export const calculationTemplates = pgTable('calculation_templates', {
   id: uuid()
     .primaryKey()
     .$defaultFn(() => createId()),
 
-  planDescription: text().notNull(),
-  initialBalance: doublePrecision().notNull(),
+  planDescription: text('plan_description').notNull(),
+  initialBalance: doublePrecision('initial_balance').notNull(),
 
   target: doublePrecision().notNull(),
-  breachDown: doublePrecision().notNull(),
-  margemDD: doublePrecision().notNull(),
-  targetProfit: doublePrecision().notNull(),
-  ddDay: doublePrecision().notNull(),
+  breachDown: doublePrecision('breach_down').notNull(),
+  margemDD: doublePrecision('margem_dd').notNull(),
+  targetProfit: doublePrecision('target_profit').notNull(),
+  ddDay: doublePrecision('dd_day').notNull(),
 
-  leverageFunded: doublePrecision().notNull(),
-  commissionFunded: doublePrecision().notNull(),
-  leverageReal: doublePrecision().notNull(),
-  commissionReal: doublePrecision().notNull(),
+  leverageFunded: doublePrecision('leverage_funded').notNull(),
+  commissionFunded: doublePrecision('commission_funded').notNull(),
+  leverageReal: doublePrecision('leverage_real').notNull(),
+  commissionReal: doublePrecision('commission_real').notNull(),
 
-  propFirmAccountNumber: text().notNull(),
-  totalGasto: text().notNull(),
+  propFirmAccountNumber: text('propFirm_account_number').notNull(),
+  totalGasto: text('total_gasto').notNull(),
 
-  targetProfitPA: doublePrecision().notNull(),
-  stopLossPA: doublePrecision().notNull(),
+  targetProfitPA: doublePrecision('target_profit_pa').notNull(),
+  stopLossPA: doublePrecision('stop_loss_pa').notNull(),
 
-  stopLossRA: doublePrecision().notNull(),
-  takeRA: doublePrecision().notNull(),
+  stopLossRA: doublePrecision('stop_loss_ra').notNull(),
+  takeRA: doublePrecision('take_ra').notNull(),
 
-  createdAt: timestamp().notNull().defaultNow(),
-  updatedAt: timestamp()
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
     .notNull()
     .defaultNow()
     .$onUpdate(() => new Date()),

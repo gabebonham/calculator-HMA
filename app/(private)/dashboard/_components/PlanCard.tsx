@@ -3,6 +3,7 @@
 import { Plan } from '@/app/models/plan.entity'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { ScrollArea } from '@/components/ui/scroll-area'
 interface Props {
   plan: Plan
   color: string
@@ -19,7 +20,7 @@ export default function PlanCard({ plan, color, bgcolor }: Props) {
   }
   return (
     <div className="">
-      <Card className="px-6 bg-[#1F2937] text-white/90 border-muted-foreground">
+      <Card className="px-6 py-6 space-y-4 bg-[#1F2937] text-white/90 border-muted-foreground">
         <div className={`${color}`}>
           <h1 className="text-xl font-bold">{plan.name}</h1>
         </div>
@@ -27,10 +28,12 @@ export default function PlanCard({ plan, color, bgcolor }: Props) {
           <h1 className="text-3xl font-bold">R${plan.price.toString()} </h1>
           <p className="text-white/80"> / {mapPeriod(plan.period)}</p>
         </div>
-        <div className="text-justify">{plan.description}</div>
+        <ScrollArea className="text-justify min-h-24">
+          <div>{plan.description}</div>
+        </ScrollArea>
         <div>
           <Button
-            className={`w-full font-bold h-12 text-lg hover:bg-white hover:text-[#1F2937]  ${bgcolor} ${color}`}
+            className={`rounded-lg w-full font-bold h-12 text-lg hover:bg-white hover:text-[#1F2937]  ${bgcolor} ${color}`}
           >
             Escolher Plano
           </Button>

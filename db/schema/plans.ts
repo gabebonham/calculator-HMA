@@ -5,7 +5,7 @@ import {
   doublePrecision,
   timestamp,
 } from 'drizzle-orm/pg-core'
-import { createId } from '@/lib/id'
+import { createId } from '../../lib/id'
 
 export const plans = pgTable('plans', {
   id: uuid()
@@ -15,14 +15,14 @@ export const plans = pgTable('plans', {
   name: text().notNull(),
   description: text().notNull(),
 
-  period: text().notNull(), // "monthly" | "semiannual" | "yearly" | "lifetime"
+  period: text().notNull(),
   price: doublePrecision().notNull(),
 
   color: text().notNull(),
   bgcolor: text().notNull(),
 
-  createdAt: timestamp().notNull().defaultNow(),
-  updatedAt: timestamp()
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
     .notNull()
     .defaultNow()
     .$onUpdate(() => new Date()),
