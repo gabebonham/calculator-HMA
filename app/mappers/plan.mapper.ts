@@ -1,6 +1,6 @@
 import { Plan } from '../models/plan.entity'
 
-export function planMapper(plan: Plan) {
+export function planMapper(plan: any) {
   return {
     id: plan.id,
     name: plan.name,
@@ -12,6 +12,6 @@ export function planMapper(plan: Plan) {
     createdAt: plan.createdAt,
   }
 }
-export function plansMapper(plans: Plan[]) {
+export function plansMapper(plans: any[]) {
   return plans.map(planMapper)
 }

@@ -1,5 +1,7 @@
+'use server'
 import { cookies } from 'next/headers'
 import { signToken, verifyToken, JWTPayload } from './jwt'
+import { redirect } from 'next/dist/server/api-utils'
 
 const SESSION_COOKIE_NAME = 'session'
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 7 // 7 days in seconds

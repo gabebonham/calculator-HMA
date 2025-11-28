@@ -7,7 +7,6 @@ import { ChartNoAxesCombined, Eye, EyeClosed } from 'lucide-react'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
 import { register } from '../../_actions/auth.actions'
-import { createRouteLoader } from 'next/dist/client/route-loader'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { RegisterSchema } from '@/lib/zod.config'
@@ -15,8 +14,8 @@ import ErrorDisplay from '@/components/shared/ErrorDisplay'
 
 export default function RegisterPageComponent() {
   const router = useRouter()
-  const [eyeVisible, setEyeVisible] = useState<boolean>(true)
-  const [eyeVisibleConfirm, setEyeVisibleConfirm] = useState<boolean>(true)
+  const [eyeVisible, setEyeVisible] = useState<boolean>(false)
+  const [eyeVisibleConfirm, setEyeVisibleConfirm] = useState<boolean>(false)
   const [error, setError] = useState<string | undefined>()
   const emailRef = useRef<HTMLInputElement>(null)
   const usernameRef = useRef<HTMLInputElement>(null)

@@ -1,13 +1,15 @@
-'use client'
 import { Bell, BellDot, ChartNoAxesCombined, User } from 'lucide-react'
-import NotificationButton from './NotificationButton'
-import { Profile } from '@/app/models/profile.entity'
-import { User as UserModel } from '@/app/models/user.entity'
 import { Button } from '@/components/ui/button'
+import { destroySession } from '@/lib/session'
+import { redirect } from 'next/navigation'
 interface Props {
   profile?: any
 }
 export default function Header({ profile }: Props) {
+  const logoutHandler = async () => {
+    await destroySession()
+    redirect('/login')
+  }
   if (profile)
     return (
       <header
@@ -29,7 +31,7 @@ export default function Header({ profile }: Props) {
             {/* <NotificationButton notifications={notifications} /> */}
           </div>
           <div className="flex items-center gap-x-1">
-            <Button>Logout</Button>
+            <Button onClick={() => logoutHandler()}>Logout</Button>
           </div>
         </div>
       </header>
@@ -54,7 +56,7 @@ export default function Header({ profile }: Props) {
             {/* <NotificationButton notifications={notifications} /> */}
           </div>
           <div className={`flex items-center gap-x-1 `}>
-            <Button>Logout</Button>
+            <Button onClick={() => logoutHandler()}>Logout</Button>
           </div>
         </div>
       </header>

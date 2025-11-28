@@ -14,7 +14,7 @@ import ErrorDisplay from '@/components/shared/ErrorDisplay'
 
 export default function LoginPageComponent() {
   const router = useRouter()
-  const [eyeVisible, setEyeVisible] = useState<boolean>(true)
+  const [eyeVisible, setEyeVisible] = useState<boolean>(false)
   const [error, setError] = useState<string | undefined>()
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
@@ -47,13 +47,16 @@ export default function LoginPageComponent() {
       return false
     }
 
-    await signIn('credentials', {
-      redirect: true, // true para redirecionar após login
-      callbackUrl: '/dashboard', // rota pós-login
+    const res = await signIn('credentials', {
+      redirect: false,
       email: emailValue,
       password: passwordValue,
     })
-    return true
+    if (res?.ok) {
+      return true
+    } else {
+      return false
+    }
   }
   const keyDownHandler = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key == 'Enter') {

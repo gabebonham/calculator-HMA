@@ -28,7 +28,7 @@ export default function CalculationTemplateInfoCardUnchange({
   }
   const getValue = () => {
     return (
-      <div className="grid grid-cols-2 gap-y-6 gap-x-2 ">
+      <div className="grid grid-cols-2 gap-y-2 gap-x-2 ">
         {Object.entries(calculationTemplate)
           .filter((e) => e[0] != 'id' && e[0] != 'createdAt')
           .map((e, i) => {
@@ -60,7 +60,7 @@ export default function CalculationTemplateInfoCardUnchange({
     )
   }
   return (
-    <Card className={`px-5 lg:px-8 text-start gap-y-3 ${w} h-full`}>
+    <Card className={`px-5 lg:px-8 text-start space-y-2 ${w} h-full`}>
       <div
         className={`w-full flex items-start justify-start ${color && color}`}
       >

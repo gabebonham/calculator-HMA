@@ -8,15 +8,15 @@ import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import CalculationTemplateInfoCardUnchange from '../../_components/CalculationTemplateInfoCardUnchange'
 interface Props {
-  calculationTemplate: CalculationTemplate
+  calculationTemplate: any
 }
 export default function CalculatePageComponent({ calculationTemplate }: Props) {
   return (
     <div className="px-4 lg:px-8 py-6 space-y-6">
       <div>
         <Link href={'/dashboard'}>
-          <Button>
-            <ArrowLeft />
+          <Button className="flex items-center gap-x-2">
+            <ArrowLeft className="size-5" />
             Dashboard
           </Button>
         </Link>

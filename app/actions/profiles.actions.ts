@@ -4,6 +4,7 @@ import { cookies } from 'next/headers'
 import { mockProfiles } from '../mocks/profile.mocks'
 import { JwtPayload } from 'jsonwebtoken'
 import { getTokenPayload } from './token.actions'
+import { sgetProfileByUserId } from '../services/profile.service'
 
 export async function getProfiles() {
   try {
@@ -43,10 +44,10 @@ export async function getProfileByCookie() {
 }
 export async function getProfileByUserId(id: string) {
   try {
-    const targetProfile = mockProfiles.find((profile) => profile.userId == id)
-    if (!targetProfile)
-      return { success: false, error: Error('Profile not found') }
-    else return { success: true, data: targetProfile }
+    const targetProfile = await sgetProfileByUserId(id)
+    if (!targetProfile.success)
+      return { success: false, error: targetProfile.error }
+    return { success: true, data: targetProfile.data }
   } catch (e: any) {
     console.log(e)
     return { success: false, error: e }

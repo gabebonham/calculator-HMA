@@ -1,8 +1,6 @@
 'use client'
 
 import { Calculation } from '@/app/models/calculation.entity'
-import { Profile } from '@/app/models/profile.entity'
-import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -19,7 +17,6 @@ export default function CalculationsTable({ calculations }: Props) {
   return (
     <div className="border-1 border-muted-foreground rounded-2xl px-3 py-1 overflow-y-auto max-h-96 ">
       <Table>
-        <TableCaption>Lista de seus cálculos.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>Data</TableHead>
@@ -63,6 +60,7 @@ export default function CalculationsTable({ calculations }: Props) {
               </TableRow>
             ))}
         </TableBody>
+        <TableCaption className="py-4">Lista de seus cálculos.</TableCaption>
       </Table>
     </div>
   )

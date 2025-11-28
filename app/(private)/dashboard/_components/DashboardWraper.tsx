@@ -8,10 +8,10 @@ import DashboardUser from './DashboardUser'
 import { plansMapper } from '@/app/mappers/plan.mapper'
 import { profileMapper, profilesMapper } from '@/app/mappers/profile.mapper'
 import { calculationTemplateMapper } from '@/app/mappers/calculation-template.mapper'
-import { useSession } from 'next-auth/react'
+import { useSession, signIn, signOut } from 'next-auth/react'
 import { Calculation } from '@/app/models/calculation.entity'
 import PlanSection from './PlanSection'
-import { auth } from '@/auth'
+import LoadingScreen from '@/components/shared/Loading'
 
 interface Props {
   plans: any[]
@@ -23,14 +23,21 @@ export default function DashboardWraper({
   profiles,
   calculations,
 }: Props) {
-  const { data, status } = useSession()
-  const profile = {
-    email: data?.user.email as string,
-    name: data?.user.name as string,
-    role: data?.user.role as string,
-    id: data?.user.id as string,
+  const { data: session, status } = useSession()
+
+  if (status === 'loading') {
+    return <LoadingScreen />
   }
-  if (profile.role == 'user')
+
+  const profile = {
+    email: session?.user.email as string,
+    name: session?.user.name as string,
+    role: session?.user.role as string,
+    plan: session?.user.plan,
+    id: session?.user.id as string,
+  }
+  console.log(profile)
+  if (!profile.plan)
     return (
       <section className="h-full">
         <Header />
@@ -47,7 +54,7 @@ export default function DashboardWraper({
           id: profile.id as string,
         }}
       />
-      {profile?.role == 'admin' ? (
+      {profile.role == 'admin' ? (
         <DashboardAdmin
           adminProfile={profile}
           profiles={profilesMapper(profiles as any) as any[]}

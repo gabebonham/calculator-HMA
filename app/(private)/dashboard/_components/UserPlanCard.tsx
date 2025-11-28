@@ -31,7 +31,7 @@ export default function UserPlanCard({ plan, color, bgcolor, owned }: Props) {
       >
         <div
           className={`${
-            owned ? 'text-primary' : color
+            owned ? ' text-primary  ' : color
           } flex justify-between items-center`}
         >
           <h1 className="text-xl font-bold">{plan.name}</h1>
@@ -51,7 +51,7 @@ export default function UserPlanCard({ plan, color, bgcolor, owned }: Props) {
           <Button
             disabled={owned}
             className={`w-full font-bold hover:bg-white hover:text-[#1F2937] h-12 text-lg ${
-              owned ? '' : bgcolor
+              owned ? 'hover:bg-primary hover:text-white cursor-auto' : bgcolor
             } ${owned ? '' : color}`}
           >
             {owned ? 'Plano Selecionado' : 'Escolher Plano'}

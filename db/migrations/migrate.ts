@@ -116,15 +116,34 @@ async function main() {
     createdAt: new Date(),
     updatedAt: new Date(),
   })
+  const [createdUser2] = await db
+    .insert(users)
+    .values({
+      id: crypto.randomUUID(),
+      username: 'Marcelão',
+      email: 'marcelo@gmail.com',
+      password: pass,
+      role: 'user',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })
+    .returning()
 
+  //
+  // 3) Insert Profile
+  //
+  await db.insert(profiles).values({
+    id: crypto.randomUUID(),
+    userId: createdUser2.id,
+    name: 'Marcelão',
+    email: createdUser2.email,
+    planId: ultimatePlan.id,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  })
   console.log('Seeding finished!')
   process.exit(0)
 }
-
-main().catch((err) => {
-  console.error(err)
-  process.exit(1)
-})
 
 main().catch((err) => {
   console.log(err)

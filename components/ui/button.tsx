@@ -15,7 +15,7 @@ const buttonVariantMap: Record<ButtonVariant, string> = {
   default: 'bg-primary text-primary-foreground',
   muted: 'bg-muted text-muted-foreground',
   success: 'bg-success text-success-foreground',
-  destructive: 'bg-destructive text-destructive-foreground',
+  destructive: 'bg-destructive text-white',
   warning: 'bg-warning text-warning-foreground',
   info: 'bg-info text-info-foreground',
   outline:

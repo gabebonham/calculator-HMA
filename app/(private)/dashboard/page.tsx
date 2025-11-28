@@ -7,14 +7,16 @@ import { getCalculationTemplate } from '@/app/actions/calculations.actions'
 import { profileMapper, profilesMapper } from '@/app/mappers/profile.mapper'
 import { plansMapper } from '@/app/mappers/plan.mapper'
 import { calculationTemplateMapper } from '@/app/mappers/calculation-template.mapper'
-import { SessionProvider, useSession } from 'next-auth/react'
 import { decodeToken } from '@/lib/jwt'
 import { cookies } from 'next/headers'
 import DashboardWraper from './_components/DashboardWraper'
 import { calculationsMapper } from '@/app/mappers/calculation.mapper'
 import { Providers } from '@/app/providers/Providers'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { getServerSession } from 'next-auth'
 
 export default async function Dashboard() {
+  const session = await getServerSession(authOptions)
   const profilesRes = await getProfiles()
   const plansRes = await getPlans()
   const calculaionRes = await getCalculationTemplate()
@@ -33,7 +35,7 @@ export default async function Dashboard() {
           calculaionRes.data &&
           (calculationTemplateMapper(calculaionRes.data) as any)
         }
-        plans={plansRes.data && (plansMapper(plansRes.data) as any)}
+        plans={plansRes.data && (plansMapper(plansRes.data as any) as any)}
         profiles={profilesRes.data && (profilesMapper(profilesRes.data) as any)}
       />
     </Providers>

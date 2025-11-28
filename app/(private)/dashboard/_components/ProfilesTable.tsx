@@ -18,7 +18,6 @@ export default function ProfilesTable({ profiles }: Props) {
   return (
     <div className="border-1 border-muted-foreground rounded-2xl px-3 py-1 max-h-96 overflow-y-auto">
       <Table>
-        <TableCaption>Lista de seus usuários.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Id</TableHead>
@@ -50,6 +49,7 @@ export default function ProfilesTable({ profiles }: Props) {
               </TableRow>
             ))}
         </TableBody>
+        <TableCaption className="py-4">Lista de seus usuários.</TableCaption>
       </Table>
     </div>
   )

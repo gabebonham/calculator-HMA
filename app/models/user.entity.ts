@@ -11,8 +11,8 @@ export class User {
     id: UUID,
     username: string,
     email: string,
-    password: string,
     role: Role,
+    password: string,
     createdAt: Date,
   ) {
     this.id = id

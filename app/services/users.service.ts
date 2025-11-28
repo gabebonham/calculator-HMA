@@ -29,6 +29,7 @@ export async function findUserByEmail(email: string) {
       .from(users)
       .where(eq(users.email, email))
       .limit(1)
+    console.log(user)
     return { success: true, data: user }
   } catch (e) {
     console.log(`Error (findUserByEmail): ${e}`)

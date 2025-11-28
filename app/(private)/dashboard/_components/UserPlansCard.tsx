@@ -1,13 +1,10 @@
 'use client'
 
 import { Plan } from '@/app/models/plan.entity'
-import { Card } from '@/components/ui/card'
-import { uuid } from '@/lib/utils'
 import UserPlanCard from './UserPlanCard'
-import { Profile } from '@/app/models/profile.entity'
 interface Props {
   plans: Plan[]
-  profile: Profile
+  profile: any
 }
 export default function UserPlansCard({ plans, profile }: Props) {
   return (
@@ -18,7 +15,7 @@ export default function UserPlansCard({ plans, profile }: Props) {
           bgcolor={plan.bgcolor}
           color={plan.color}
           plan={plan}
-          owned={profile.planId == plan.id}
+          owned={profile?.plan == plan.id}
         />
       ))}
     </div>

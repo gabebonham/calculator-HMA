@@ -1,26 +1,18 @@
-import Header from '../_components/Header'
-import CalculatePageComponent from './_component/CalculatePage'
-import { getProfileByCookie } from '@/app/actions/profiles.actions'
-import { profileMapper } from '@/app/mappers/profile.mapper'
-import { CalculationTemplate } from '@/app/models/calculation-template.entity'
 import { getCalculationTemplate } from '@/app/actions/calculations.actions'
 import { calculationTemplateMapper } from '@/app/mappers/calculation-template.mapper'
+import { Providers } from '@/app/providers/Providers'
+import { getServerSession } from 'next-auth'
+import CalculatorWrapper from '../_components/CalculatorWrapper'
 export default async function CalculatePage() {
-  const profileRes = await getProfileByCookie()
+  const session = await getServerSession()
   const calculationRes = await getCalculationTemplate()
   return (
-    <section>
-      <Header
-        profile={
-          profileRes.success && (profileMapper(profileRes.data as any) as any)
-        }
-      />
-      <CalculatePageComponent
+    <Providers>
+      <CalculatorWrapper
         calculationTemplate={
-          calculationRes.success &&
-          (calculationTemplateMapper(calculationRes.data as any) as any)
+          calculationRes.data && calculationTemplateMapper(calculationRes.data)
         }
       />
-    </section>
+    </Providers>
   )
 }
