@@ -164,8 +164,8 @@ export function calculateHantecRow(
 //
 
 export interface HantecInputs {
-  INP_planCode: number
-  INP_step: number
+  INP_planCode: string
+  INP_step: string
   INP_stopLossTrade: number
   INP_safeValue: number
   INP_currentBalance: number
@@ -221,6 +221,46 @@ export function calcularHantec(
   // stopLossLots = (stopLossTrade * coinPairValue) / (leverageReal * commissionReal)
   const OUTRA_stopLossLots =
     (INP_stopLossTrade * INP_coinPairValue) / (leverageReal * commissionReal)
+
+  return {
+    OUTPA_targetProfitPoints,
+    OUTPA_stopLossPoints,
+    OUTRA_stopLossLots,
+  }
+}
+export function calculateHantec2(
+  inputs: HantecInputs,
+  template: CalculationTemplate,
+): HantecOutputs {
+  // CONSTANTS extracted from your Excel sheet
+  const POINTS_PER_LOT_PROP = 156 // for prop account
+  const POINTS_PER_LOT_REAL = 16 // for real account
+
+  // -------------------------
+  // PROP ACCOUNT CALCULATIONS
+  // -------------------------
+
+  // 1) Target Profit Points (PROP)
+  const OUTPA_targetProfitPoints =
+    inputs.INPPA_targetProfitLots * POINTS_PER_LOT_PROP
+
+  // 2) Stop Loss Points (PROP)
+  // stopLossTrade is a MONEY VALUE (ex: -1,000.00)
+  // prop lot size from Excel:
+  //      LOTS = stopLossMoney / commissionFunded
+  //
+  const stopLossLotsPA = inputs.INP_stopLossTrade / template.commissionFunded
+
+  const OUTPA_stopLossPoints = stopLossLotsPA * POINTS_PER_LOT_PROP
+
+  // -------------------------
+  // REAL ACCOUNT CALCULATIONS
+  // -------------------------
+
+  // 3) Real Account Stop Loss LOTS
+  // Excel:
+  //      REAL LOTS = stopLossRA / commissionReal
+  const OUTRA_stopLossLots = template.stopLossRA / template.commissionReal
 
   return {
     OUTPA_targetProfitPoints,

@@ -7,10 +7,14 @@ import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import CalculationTemplateInfoCardUnchange from '../../_components/CalculationTemplateInfoCardUnchange'
+import { useState } from 'react'
+import { HantecOutputs } from '@/app/services/calculation.service'
 interface Props {
   calculationTemplate: any
 }
+
 export default function CalculatePageComponent({ calculationTemplate }: Props) {
+  const [output, setOutput] = useState<HantecOutputs | undefined>()
   return (
     <div className="px-4 lg:px-8 py-6 space-y-6">
       <div>
@@ -30,10 +34,10 @@ export default function CalculatePageComponent({ calculationTemplate }: Props) {
       <div className="grid grid-cols-1 gap-y-4 lg:grid-cols-2 lg:gap-x-4">
         <div className="h-full space-y-4">
           <div>
-            <InputCard />
+            <InputCard setOutput={setOutput} template={calculationTemplate} />
           </div>
           <div className="hidden lg:block">
-            <OutputCard />
+            <OutputCard output={output} />
           </div>
         </div>
         <div className="h-full">
@@ -45,10 +49,12 @@ export default function CalculatePageComponent({ calculationTemplate }: Props) {
         </div>
       </div>
       <div>
-        <Button className="text-xl h-12 w-full">Calculate</Button>
+        <Button form="calc-form" className="text-xl h-12 w-full">
+          Calculate
+        </Button>
       </div>
       <div className="lg:hidden">
-        <OutputCard />
+        <OutputCard output={output} />
       </div>
     </div>
   )

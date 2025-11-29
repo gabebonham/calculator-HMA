@@ -1,11 +1,16 @@
 'use client'
 
+import { HantecOutputs } from '@/app/services/calculation.service'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 
-export default function OutputCard() {
+export default function OutputCard({
+  output,
+}: {
+  output: HantecOutputs | undefined
+}) {
   return (
     <div className="h-full">
       <Card className="px-4 lg:px-6 border-purple-500 border-2">
@@ -23,7 +28,7 @@ export default function OutputCard() {
                   </Label>
                   <div className="bg-purple-200  border-1 border-muted-foreground/30 rounded-md py-2 w-full flex justify-center">
                     <Label className="text-xl lg:text-lg font-bold text-purple-600">
-                      123
+                      {output?.OUTPA_targetProfitPoints.toFixed(5) || '...'}
                     </Label>
                   </div>
                 </div>
@@ -37,7 +42,7 @@ export default function OutputCard() {
                   </Label>
                   <div className="bg-purple-200  border-1 border-muted-foreground/30 rounded-md py-2 w-full flex justify-center">
                     <Label className="text-xl lg:text-lg font-bold text-purple-600">
-                      123
+                      {output?.OUTPA_stopLossPoints.toFixed(5) || '...'}
                     </Label>
                   </div>
                 </div>
@@ -55,7 +60,7 @@ export default function OutputCard() {
                   <Label className="text-lg lg:text-sm ">LOT</Label>
                   <div className="bg-purple-200  border-1 border-muted-foreground/30 rounded-md py-2 w-full flex justify-center">
                     <Label className="text-xl lg:text-lg font-bold text-purple-600">
-                      123
+                      {output?.OUTRA_stopLossLots.toFixed(5) || '...'}
                     </Label>
                   </div>
                 </div>
