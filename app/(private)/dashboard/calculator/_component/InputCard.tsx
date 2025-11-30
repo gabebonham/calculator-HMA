@@ -1,21 +1,12 @@
 'use client'
 
+import { createCalculation } from '@/app/actions/calculations.actions'
 import { CalculationTemplate } from '@/app/models/calculation-template.entity'
 import {
-  calcularHantec,
-  calculateHantec2,
+  excelForexCalc,
   HantecOutputs,
-} from '@/app/services/calculation.service'
-import {
-  calculateHantecGemini,
-  PLANOS_DATA,
-} from '@/app/services/calculator-service2'
-import { calculateHantecWithLookup } from '@/app/services/calculator.service'
-import { calculateHantecValues } from '@/app/services/calculator2.service'
-import {
-  computeHantecOutputs,
-  planFundedMap,
-} from '@/app/services/calculator3.service'
+} from '@/app/services/calculator.service'
+
 import { ButtonGroup } from '@/components/ui/button-group'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -29,141 +20,42 @@ import {
 } from '@/components/ui/select'
 import { Toggle } from '@/components/ui/toggle'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 export default function InputCard({
   template,
+  coinPairs,
   setOutput,
+  planRules,
+  profileId,
 }: {
   template: CalculationTemplate
+  coinPairs: any[]
   setOutput: (value: HantecOutputs | undefined) => void
+  planRules: any[]
+  profileId: string
 }) {
   const [currentStep, setStep] = useState<string | undefined>()
   const [error, setError] = useState<string | undefined>()
   const [coinPairValue, setCoinPairValue] = useState<string | undefined>()
-  const coinPairs = [
-    'EUR/USD',
-    'GBP/USD',
-    'AUD/USD',
-    'NZD/USD',
-    'USD/CAD',
-    'USD/CHF',
-    'USD/JPY',
-    'EUR/GBP',
-    'EUR/AUD',
-    'EUR/NZD',
-    'EUR/JPY',
-    'EUR/CAD',
-    'EUR/CHF',
-    'GBP/AUD',
-    'GBP/NZD',
-    'GBP/JPY',
-    'GBP/CAD',
-    'GBP/CHF',
-    'AUD/NZD',
-    'AUD/JPY',
-    'AUD/CAD',
-    'AUD/CHF',
-    'NZD/JPY',
-    'NZD/CAD',
-    'NZD/CHF',
-    'CAD/JPY',
-    'CAD/CHF',
-    'CHF/JPY',
-  ]
-  // const plans = PLANOS_DATA.map(
-  //   (pl: any) =>
-  //     ({
-  //       id: pl.id,
-  //       valor: pl.initialBalance,
-  //       ddTotalF1: pl.dd_f1,
-  //       targetF1: pl.target_f1,
-  //       ddDayF2: pl.dd_f2,
-  //       targetF2: pl.target_f2,
-  //       ddDayFAC: pl.dd_fac,
-  //       targetFAC: pl.target_fac,
-  //       accountType: 'sdf',
-  //       broker: '0',
-  //       challengeType: '0',
-  //       ddDayF1: -5,
-  //       leverageF1: 30,
-  //       leverageF2: 30,
-  //       propFirm: '0',
-  //     } as PlanData),
-  // ) as PlanData[]
-  // Defina essa constante no mesmo arquivo ou importe-a
-  const TRADE_DATA = [
-    // Exemplo baseado nos dados da sua planilha (NZD/JPY)
-    {
-      id: '6',
-      par: 'NZD/JPY',
-      pipMultiplier: 100, // Coluna M da Planilha (Fator de 100 para JPY)
-      fatorRisco: 0.1, // Placeholder para Coluna I (Index 6 - Fator de Risco)
-      fatorAjuste: 0.05, // Placeholder para Coluna R/O (Index 15/12 - Fator de Ajuste)
-      valorRetorno: 60.0, // Coluna V (Index 19 - Valor de Retorno)
-      outroValorRetorno: 1.0, // Placeholder para Coluna W (Index 20)
-    },
-    // Exemplo para USD/JPY
-    {
-      id: '7',
-      par: 'USD/JPY',
-      pipMultiplier: 156.39,
-      fatorRisco: 0.1,
-      fatorAjuste: 0.05,
-      valorRetorno: 60.0,
-      outroValorRetorno: 1.0,
-    },
-    // ... ADICIONE TODOS OS OUTROS PARES AQUI COM SEUS FATORES CORRETOS ...
-  ]
-  const pipValue: Record<string, number> = {
-    'EUR/USD': 0.0001,
-    'GBP/USD': 0.0001,
-    'AUD/USD': 0.0001,
-    'NZD/USD': 0.0001,
-    'USD/CAD': 0.0001,
-    'USD/CHF': 0.0001,
 
-    'USD/JPY': 156.39,
-
-    'EUR/GBP': 0.0001,
-    'EUR/AUD': 0.0001,
-    'EUR/NZD': 0.0001,
-    'EUR/JPY': 0.01,
-    'EUR/CAD': 0.0001,
-    'EUR/CHF': 0.0001,
-
-    'GBP/AUD': 0.0001,
-    'GBP/NZD': 0.0001,
-    'GBP/JPY': 0.01,
-    'GBP/CAD': 0.0001,
-    'GBP/CHF': 0.0001,
-
-    'AUD/NZD': 0.0001,
-    'AUD/JPY': 0.01,
-    'AUD/CAD': 0.0001,
-    'AUD/CHF': 0.0001,
-
-    'NZD/JPY': 0.01,
-    'NZD/CAD': 0.0001,
-    'NZD/CHF': 0.0001,
-
-    'CAD/JPY': 0.01,
-    'CAD/CHF': 0.0001,
-
-    'CHF/JPY': 0.01,
-  }
-
-  const calculationHandler = (formData: FormData) => {
+  const calculationHandler = async (formData: FormData) => {
     const INP_planCode = formData.get('INP_planCode')?.toString()
     const INP_step = currentStep
     const INP_stopLossTrade = Number(formData.get('INP_stopLossTrade'))
     const INP_safeValue = Number(formData.get('INP_safeValue'))
     const INP_currentBalance = Number(formData.get('INP_currentBalance'))
-    const pair = formData.get('INP_coinPairValue')?.toString()
-    const INP_coinPairValue = pipValue[pair!]
+    const INP_coinPairValue = formData.get('INP_coinPairValue')?.toString()
     const INPPA_targetProfitLots = Number(
       formData.get('INPPA_targetProfitLots'),
     )
-
+    const targetTicker = coinPairs.find(
+      (pair: any) => pair.ticker == INP_coinPairValue,
+    )
+    if (!targetTicker) {
+      setError('Par Moeda Não Encontrado')
+      return
+    }
     if (
       INP_planCode == null ||
       INP_step == null ||
@@ -176,27 +68,44 @@ export default function InputCard({
       setError('Campos faltando')
       return
     }
-
     setError(undefined)
-
-    const output = calculateHantecValues({
-      INP_planCode: Number(INP_planCode),
-      INP_step: INP_step as any,
-      INP_coinPairValue: 156.39,
-      INP_stopLossTrade: INP_stopLossTrade,
-      INP_E17_RiskRatio: 0.01,
-      INP_J9_LotSize: INP_currentBalance,
-      INP_lotValueBaseline: INPPA_targetProfitLots,
-      INP_F14: INP_stopLossTrade,
-    })
-
-    if (output) setOutput(output)
-    else setError('Erro ao calcular')
+    const output = await excelForexCalc(
+      {
+        INP_planCode,
+        INP_step,
+        INP_stopLossTrade,
+        INP_safeValue,
+        INP_currentBalance,
+        INP_coinPair: INP_coinPairValue,
+        INPPA_targetProfitLots,
+      },
+      template,
+      targetTicker.price,
+      planRules,
+    )
+    const res = await createCalculation(
+      {
+        INP_planCode,
+        INP_step,
+        INP_stopLossTrade,
+        INP_safeValue,
+        INP_currentBalance,
+        INP_coinPair: INP_coinPairValue,
+        INPPA_targetProfitLots,
+      },
+      output,
+      profileId,
+      targetTicker.price,
+    )
+    if (output && res.success) {
+      setOutput(output)
+      toast('Cálculo salvo!')
+    } else setError('Erro ao calcular')
   }
 
   return (
     <div className="h-fit">
-      <Card className="px-4 h-full border-amber-500 border-2">
+      <Card className="px-4  border-amber-500 border-2 h-fit">
         {/* <div className="space-y-4 lg:w-1/2"> */}
         <form
           id="calc-form"
@@ -255,11 +164,13 @@ export default function InputCard({
                 <SelectValue placeholder="Selecione" />
               </SelectTrigger>
               <SelectContent>
-                {coinPairs.map((cp) => (
-                  <SelectItem key={cp} value={cp}>
-                    {cp}
-                  </SelectItem>
-                ))}
+                {coinPairs
+                  .filter((cp: any) => cp.ticker)
+                  .map((cp) => (
+                    <SelectItem key={cp.ticker} value={cp.ticker}>
+                      {cp.ticker}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
             <input

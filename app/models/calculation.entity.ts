@@ -12,6 +12,7 @@ export class Calculation {
   INP_safeValue: number
   INP_currentBalance: number
   INP_coinPairValue: number
+  INP_coinPair: string
   INPPA_targetProfitLots: number
   OUTPA_targetProfitPoints: number
   OUTPA_stopLossPoints: number
@@ -23,6 +24,7 @@ export class Calculation {
     INP_planCode: number,
     INP_step: number,
     INP_stopLossTrade: number,
+    INP_coinPair: string,
     INP_safeValue: number,
     INP_currentBalance: number,
     INP_coinPairValue: number,
@@ -42,6 +44,7 @@ export class Calculation {
     this.INP_safeValue = INP_safeValue
     this.INP_currentBalance = INP_currentBalance
     this.INP_coinPairValue = INP_coinPairValue
+    this.INP_coinPair = INP_coinPair
     this.INPPA_targetProfitLots = INPPA_targetProfitLots
     this.OUTPA_targetProfitPoints = OUTPA_targetProfitPoints
     this.OUTPA_stopLossPoints = OUTPA_stopLossPoints

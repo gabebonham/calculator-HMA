@@ -17,11 +17,17 @@ interface Props {
   plans: any[]
   profiles: any[]
   calculations: any[]
+  planRules: any[]
+  calculationActRes: any
+  profile: any
 }
 export default function DashboardWraper({
   plans,
   profiles,
   calculations,
+  planRules,
+  calculationActRes,
+  profile,
 }: Props) {
   const { data: session, status } = useSession()
 
@@ -29,15 +35,14 @@ export default function DashboardWraper({
     return <LoadingScreen />
   }
 
-  const profile = {
+  const profilee = {
     email: session?.user.email as string,
     name: session?.user.name as string,
     role: session?.user.role as string,
     plan: session?.user.plan,
     id: session?.user.id as string,
   }
-  console.log(profile)
-  if (!profile.plan)
+  if (!profilee?.plan)
     return (
       <section className="h-full">
         <Header />
@@ -49,19 +54,29 @@ export default function DashboardWraper({
       <Header
         profile={{
           email: profile.email as string,
-          name: profile.name as string,
-          role: profile.role as string,
+          name: profile.username as string,
+          role: profilee.role as string,
           id: profile.id as string,
         }}
       />
-      {profile.role == 'admin' ? (
+      {profilee.role == 'admin' ? (
         <DashboardAdmin
+          plans={plansMapper(plans || [])}
+          adminUser={profile}
+          planRules={planRules}
           adminProfile={profile}
           profiles={profilesMapper(profiles as any) as any[]}
           calculationTemplate={calculationTemplateMapper(calculations as any)}
         />
       ) : (
-        <DashboardUser plans={plansMapper(plans || [])} profile={profile} />
+        <DashboardUser
+          user={profile}
+          calculationActRes={calculationActRes}
+          calculations={calculations}
+          plans={plansMapper(plans || [])}
+          profile={profile}
+          plan={profilee.plan}
+        />
       )}
     </section>
   )

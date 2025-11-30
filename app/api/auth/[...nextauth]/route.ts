@@ -42,6 +42,7 @@ export const authOptions: NextAuthOptions = {
             name: user.data?.username!,
             role: user.data?.role!,
             plan: profileRes.success ? profileRes.data?.planId : undefined,
+            profileId: profileRes.success ? profileRes.data?.id : undefined,
           }
         } else {
           return null
@@ -58,6 +59,7 @@ export const authOptions: NextAuthOptions = {
         token.name = user.name
         token.role = user.role
         token.plan = user.plan
+        token.profileId = user.profileId
         const oneHourInSeconds = 60 * 60 * 24
         token.exp = new Date(
           Math.floor(Date.now() / 1000) + oneHourInSeconds * 1000,
@@ -71,6 +73,7 @@ export const authOptions: NextAuthOptions = {
       session.user.email = token.email
       session.user.name = token.name
       session.user.plan = token.plan
+      session.user.profileId = token.profileId
       session.user.role = token.role as string
       session.expires = token.exp.toString()
       return session

@@ -4,6 +4,7 @@ import {
   integer,
   doublePrecision,
   timestamp,
+  text,
 } from 'drizzle-orm/pg-core'
 import { createId } from '../../lib/id'
 
@@ -17,7 +18,7 @@ export const calculations = pgTable('calculations', {
   profileId: uuid('profile_id')
     .notNull()
     .references(() => profiles.id, { onDelete: 'cascade' }),
-
+  INP_coinPair: text('INP_coin_pair').notNull(),
   INP_planCode: integer('INP_planCode').notNull(),
   INP_step: integer('INP_step').notNull(),
   INP_stopLossTrade: doublePrecision('INP_stopLossTrade').notNull(),

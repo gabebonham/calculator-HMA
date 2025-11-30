@@ -5,17 +5,18 @@ import UserPlanCard from './UserPlanCard'
 interface Props {
   plans: Plan[]
   profile: any
+  plan: string
 }
-export default function UserPlansCard({ plans, profile }: Props) {
+export default function UserPlansCard({ plans, profile, plan }: Props) {
   return (
     <div className="space-y-4 grid grid-cols-1 lg:grid-cols-4 lg:gap-x-2">
-      {plans.map((plan) => (
+      {plans.map((plann) => (
         <UserPlanCard
-          key={plan.id}
-          bgcolor={plan.bgcolor}
-          color={plan.color}
-          plan={plan}
-          owned={profile?.plan == plan.id}
+          key={plann.id}
+          bgcolor={plann.bgcolor}
+          color={plann.color}
+          plan={plann}
+          owned={plan == plann.id}
         />
       ))}
     </div>

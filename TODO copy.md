@@ -1,3 +1,338 @@
+## FORGOT PASSWORD
+
+- send email
+- store code
+- validate code
+- update password
+
+## USER
+
+- fluxo de upgrade de plano
+- get user calculations
+- edit user
+- perform calculation
+
+## CALCULATION
+
+- grab static fields
+- perform calculations
+
+## ADMIN
+
+- edit his data
+- grab all users and count them
+- count user per plan
+- edit static props
+- delete user
+
+## LASTLINK
+
+- criar planos
+- criar webhooks to confirm and opdate, until then, wait
+
+## GMAIL
+
+- integration with gmail
+
+<!--  -->
+
+e4 = INP_planCode
+e6 = INP_step
+e20 = INP_safeValue
+f14 = INP_stopLossTrade
+g23 = INPPA_targetProfitLots
+j6 = INP_currentBalance
+j10 = INP_coinPairValue
+
+export interface HantecInputs {
+INP_planCode: string
+INP_step?: string
+INP_stopLossTrade: number // money (stop loss money)
+INP_safeValue?: number
+INP_currentBalance?: number
+INP_coinPairValue?: number
+INPPA_targetProfitLots: number
+}
+
+export interface HantecOutputs {
+OUTPA_targetProfitPoints: number
+OUTPA_stopLossPoints: number
+OUTRA_stopLossLots: number
+}
+
+e28 =(E20/F10F14)+((E20/F10F14)/H28E18)
+e27 =PROCV(J10;D39:W66;20;0)
+e24 =SE(E14>J7;J7;E14)
+e25 =J8
+e16 =PROCV(E4;'Planos (FUNDED)'!A:G;7;0)
+e15 =SE(E6=1;PROCV(E4;'Planos (FUNDED)'!A:Q;17;0);
+SE(E6=2;PROCV(E4;'Planos (FUNDED)'!A:U;21;0);
+SE(E6="F1";PROCV(E4;'Planos (FUNDED)'!A:X;24;0);
+SE(E6="F2";PROCV(E4;'Planos (FUNDED)'!A:X;24;0);
+"ERRO"))))
+e14 =F14E7
+e13=F13E7
+e12=E9-E7
+e11=E7-E10
+e10=E7+(E7F10)
+e9=E7+(E7F9)
+e7=PROCV(E4;'Planos (FUNDED)'!A:E;3;0)
+e5=CONCATENAR(PROCV(E4;'Planos (FUNDED)'!A:G;2;0);" - ";PROCV(E4;'Planos (FUNDED)'!A:G;4;0);" - ";PROCV(E4;'Planos (FUNDED)'!A:G;5;0))
+
+f28=G28E18
+f27=G27E18
+f24=G24E16
+f23=G23E16
+f18=F17+(E27-1)
+f17=(1/E17)G27100000(J9/J11)-1
+f15=(J6+E24-F24)/(J9/J11)/(1/E15)/100000
+f13=SE(E6=1;PROCV(E4;'Planos (FUNDED)'!A:P;14;0);
+SE(E6=2;PROCV(E4;'Planos (FUNDED)'!A:T;18;0);
+SE(E6="F1";PROCV(E4;'Planos (FUNDED)'!A:W;22;0);
+SE(E6="F2";PROCV(E4;'Planos (FUNDED)'!A:W;22;0);
+"ERRO"))))-1
+
+f10=SE(E6=1;PROCV(E4;'Planos (FUNDED)'!A:P;15;0);
+SE(E6=2;PROCV(E4;'Planos (FUNDED)'!A:T;19;0);
+SE(E6="F1";PROCV(E4;'Planos (FUNDED)'!A:W;23;0);
+SE(E6="F2";PROCV(E4;'Planos (FUNDED)'!A:W;23;0);
+"ERRO"))))-1
+f9=SE(E6=1;PROCV(E4;'Planos (FUNDED)'!A:P;16;0);
+SE(E6=2;PROCV(E4;'Planos (FUNDED)'!A:T;20;0);
+SE(E6="F1";PROCV(E4;'Planos (FUNDED)'!A:W;23;0);
+SE(E6="F2";PROCV(E4;'Planos (FUNDED)'!A:W;23;0);
+"ERRO"))))
+
+g28=PROCV(J10;D39:V66;19;0)
+OUTPA_stopLossLots=g27=G28
+g24=G23
+g14=SE((E14-1)>J7;"STOP MAIOR QUE MARGEM DD DAY";"OK")
+g13=SE(E14<=E13;"VALOR ACIMA DO DD DAY";"OK")
+
+h28=H24
+h27=H23
+OUTPA_stopLossPoints=h24=PROCV(J10;D39:I66;6;0)
+OUTPA_targetProfitPoints=h23=PROCV(J10;D39:Q66;14;0)
+
+i28=I24
+i27=I23
+i26=SE(J24=G13;SE(J24=G14;SE(J24=J5;"OK";"** VERIFICAR ");" VERIFICAR ");" VERIFICAR \***")
+i24=PROCV(J10;D39:O66;12;0)
+i23=PROCV(J10;D39:R66;15;0)
+
+j24=SE(G23>F15;"LOTE ACIMA DO MÁX. PERMITIDO";"OK")
+j11=PROCV(J10;D39:L66;9;0)
+j10=USD/JPY
+j8=E9-J6
+j7=E9-J6
+j5=SE(E20>K4;"OK";"ERRO")
+
+k7=K6-F10
+k6=(J6/E7)-1
+
+target profit poitns
+USDJPY price × 10
+156.4 × 10 = 1564
+
+stop loss points ARBITRARIO
+Price / 1
+156.4 ≈ 156
+
+stop loss lots
+156 / 100 = 1.56 → adjusted by your plan ratio to 0.6
+
+export function calculateG27StopLossLots(
+E20_safeValue: number,
+F14_stopLossTrade: number,
+E18_comissionReal: number,
+stopLossPoints: number,
+breachDown: number,
+): number {
+const F10 = breachDown
+const baseCalculation = (E20_safeValue / F10) \* F14_stopLossTrade
+
+const result =
+baseCalculation + (baseCalculation / stopLossPoints) \* E18_comissionReal
+
+return result
+}
+export function calcularValorE28(
+E20_safeValue: number,
+F10_breachDown: number,
+F14_stopLossTrade: number,
+stopLossPoints: number,
+E18_comissionReal: number,
+): number {
+// Uma variável temporária ajuda a manter o código limpo, já que o cálculo base se repete
+const calculoBase = (E20_safeValue / F10_breachDown) \* F14_stopLossTrade
+
+const resultado =
+calculoBase + (calculoBase / stopLossPoints) \* E18_comissionReal
+
+return resultado
+}
+export function calcularValorI45StopLossPoints(
+F14_stopLossTrade: number,
+F45_price: number,
+E7_initialBalance: number,
+G45_targetProfitPoints: number,
+J6_currentBalance: number,
+F10_breachDown: number,
+): number {
+const E14 = F14_stopLossTrade \* E7_initialBalance
+const J7 = J6_currentBalance - F10_breachDown
+// F45 / 100 converte a porcentagem em um número decimal (ex: 50 -> 0.5)
+const porcentagemDecimal = F45_price / 100
+
+// H45 _ porcentagemDecimal calcula o valor real da porcentagem (ex: 1000 _ 0.5 = 500)
+const valorDaPorcentagem = F14_stopLossTrade \* porcentagemDecimal
+
+// Divide o resultado final pelo valor em G45
+const resultado = valorDaPorcentagem / G45_targetProfitPoints
+
+return resultado
+}
+export function limitarValor(
+F14_stopLossTrade: number,
+E7_initialBalance: number,
+J6_currentBalance: number,
+E10_breachDown: number,
+): number {
+const J7 = J6_currentBalance - E10_breachDown
+const E14 = F14_stopLossTrade \* E7_initialBalance
+// Se E14 for maior que J7, use J7. Caso contrário, use E14.
+const resultado = E14 > J7 ? J7 : E14
+return resultado
+}
+// Assumindo que você tem uma função para buscar os dados, similar ao PROCV:
+// searchFunction(lookupValue, sheetName, columnIndex)
+export declare function searchFunction(
+lookupValue: any,
+sheetName: string,
+columnIndex: number,
+): any
+
+export function processarPlanos(E6_step: string, E4_planCode: any): any {
+const sheetName = 'Planos (FUNDED)'
+
+if (E6_step === '1') {
+// Se E6 for 1, busca na coluna 15
+return searchFunction(E4_planCode, sheetName, 15)
+} else if (E6_step === '2') {
+// Se E6 for 2, busca na coluna 19
+return searchFunction(E4_planCode, sheetName, 19)
+} else if (E6_step === 'F1') {
+// Se E6 for igual ao valor em F1, busca na coluna 23
+return searchFunction(E4_planCode, sheetName, 23)
+} else {
+// Se nenhuma condição for atendida (o valor 'se falso' final)
+return 'Condição não encontrada'
+}
+}
+
+!!TENHO 1. BASE INPUTS
+E4 = INP_planCode
+E6 = INP_step
+E20 = INP_safeValue
+F14 = INP_stopLossTrade
+G23 = INPPA_targetProfitLots
+J6 = INP_currentBalance
+J10 = INP_coinPairValue
+
+!!TENHO 2. FIRST LEVEL (only uses E4, E6)
+E7 = PROCV(E4; 'Planos'!A:E; 3;0)
+E16 = PROCV(E4; 'Planos'!A:G; 7;0)
+E15 = SE(E6=1; PROCV(E4;A:Q;17); SE(E6=2;PROCV(A:U;21); SE(E6="F1/F2";PROCV(A:X;24))))
+E5 = CONCATENAR(PROCV(E4;A:G;2);" - ";PROCV(E4;A:G;4);" - ";PROCV(E4;A:G;5))
+
+3. SECOND LEVEL (depends on E7)
+   F10 = lookup(E4,E6) // uses E6, returns % → THEN minus 1
+   F9 = lookup(E4,E6)
+   F13 = lookup(E4,E6) - 1
+
+4. THIRD LEVEL (depends on E7, F9, F10)
+   E9 = E7 + (E7 _ F9)
+   E10 = E7 + (E7 _ F10)
+   E12 = E9 - E7
+   E11 = E7 - E10
+
+5. FOURTH LEVEL (depends on E7, F14)
+   E14 = F14 \* E7
+
+6. FIFTH LEVEL (depends on previous)
+   E24 = SE(E14 > J7; J7; E14)
+   E25 = J8 // J8 below, but uses only E9, J6
+
+7. SIXTH LEVEL (depends on F9/F10 etc)
+   F17 = (1/E17)*G27*100000\*(J9/J11) - 1
+   F18 = F17 + (E27 - 1)
+
+(You didn’t give E17, E27, G27 definitions earlier; they go later.)
+
+8. MARKET TABLE LOOKUPS (D39:W66)
+
+These depend only on J10, so they can be computed ANY TIME:
+
+E27 = PROCV(J10;D39:W66;20)
+G28 = PROCV(J10;D39:V66;19)
+H24 = PROCV(J10;D39:I66;6) → OUTPA_stopLossPoints
+H23 = PROCV(J10;D39:Q66;14) → OUTPA_targetProfitPoints
+I24 = PROCV(J10;D39:O66;12)
+I23 = PROCV(J10;D39:R66;15)
+J11 = PROCV(J10;D39:L66;9)
+
+So outputs can be computed as soon as lookups are ready.
+
+9. J-COLUMN
+   J8 = E9 - J6
+   J7 = E9 - J6 // same formula
+   J5 = SE(E20 > K4; "OK"; "ERRO") // depends on K4 below
+   J24 = SE(G23 > F15; "LOTE ACIMA"; "OK")
+
+10. G-COLUMN (stop loss lots)
+    G24 = G23
+    G27 = G28 // OUTRA_stopLossLots
+    G14 = SE((E14-1)>J7;"STOP MAIOR…";"OK")
+    G13 = SE(E14 <= E13;"VALOR…";"OK")
+
+11. F-COLUMN leftovers
+    F28 = G28 _ E18 // need E18
+    F27 = G27 _ E18
+    F24 = G24 _ E16
+    F23 = G23 _ E16
+    F15 = (J6 + E24 - F24) / (J9/J11) / (1/E15) / 100000
+
+12. H-COLUMN duplicates
+    H28 = H24
+    H27 = H23
+
+13. I-COLUMN (OK/ERROR logic)
+    I28 = I24
+    I27 = I23
+    I26 = SE(J24=G13; SE(J24=G14; SE(J24=J5;"OK";"** VERIFICAR ");" VERIFICAR "); " VERIFICAR \***")
+
+14. K-COLUMN
+    K6 = (J6/E7) - 1
+    K7 = K6 - F10
+
+
+((template.initialBalance * stopLostTrade > currentBalance ? currentBalance : template.initialBalance * stopLostTrade) * (price / 100)) / ((template.initialBalance * stopLostTrade > currentBalance ? currentBalance : template.initialBalance * stopLostTrade * (price / 100)) / (price / 100)) 
+
+
+
+
+
+
+
+target profit points = (((initialBalance+(initialBalance*targetPerc))-currentBalance)*(price/100))/targetProfitLots
+const stopLossPoints = ((SE((stopLossTrade*initialBalance)>(currentBalance-(initialBalance+(initialBalance*breachDownPerc)));(currentBalance-(initialBalance+(initialBalance*breachDownPerc)));(stopLossTrade*initialBalance)))*(price/100))/targetProfitPoints
+const stopLossLots = ((safeValue/breachDownPerc*stopLossTrade)+((safeValue/breachDownPerc*stopLossTrade)/(((SE((stopLossTrade*initialBalance)>(currentBalance-(initialBalance+(initialBalance*breachDownPerc)));(currentBalance-(initialBalance+(initialBalance*breachDownPerc)));(stopLossTrade*initialBalance)))*(price/100))/targetProfitLots)*comissionReal))/((((SE(stopLossTrade>(currentBalance-(initialBalance+(initialBalance*breachDownPerc)));(currentBalance-(initialBalance+(initialBalance*breachDownPerc)));stopLossTrade))*(price/100))/targetProfitLots)/(price/100))
+
+comissionreal = 0
+
+
+
+
 import { calculationTemplate } from '@/app/mocks/calculation.mocks'
 import { CalculationTemplate } from '@/app/models/calculation-template.entity'
 import { plans } from '@/db/schema'
@@ -6,7 +341,7 @@ function getPointsPerPip(pip: number) {
   // USD/JPY → pip = 0.01    → 100 points
   return pip === 0.0001 ? 10 : pip === 0.01 ? 100 : pip === 0.001 ? 1 : 10
 }
- function calculateG27StopLossLots(
+export function calculateG27StopLossLots(
   E20_safeValue: number,
   F14_stopLossTrade: number,
   E18_comissionReal: number,
@@ -21,7 +356,7 @@ function getPointsPerPip(pip: number) {
 
   return result
 }
- function calcularValorE28(
+export function calcularValorE28(
   E20_safeValue: number,
   F10_breachDown: number,
   F14_stopLossTrade: number,
@@ -36,7 +371,7 @@ function getPointsPerPip(pip: number) {
 
   return resultado
 }
- function calcularValorI45StopLossPoints(
+export function calcularValorI45StopLossPoints(
   F14_stopLossTrade: number,
   F45_price: number,
   E7_initialBalance: number,
@@ -57,7 +392,7 @@ function getPointsPerPip(pip: number) {
 
   return resultado
 }
- function limitarValor(
+export function limitarValor(
   F14_stopLossTrade: number,
   E7_initialBalance: number,
   J6_currentBalance: number,
@@ -72,13 +407,13 @@ function getPointsPerPip(pip: number) {
 }
 // Assumindo que você tem uma função para buscar os dados, similar ao PROCV:
 // searchFunction(lookupValue, sheetName, columnIndex)
- declare function searchFunction(
+export declare function searchFunction(
   lookupValue: any,
   sheetName: string,
   columnIndex: number,
 ): any
 
- function processarPlanos(E6_step: string, E4_planCode: any): any {
+export function processarPlanos(E6_step: string, E4_planCode: any): any {
   const sheetName = 'Planos (FUNDED)'
 
   if (E6_step === '1') {
@@ -292,7 +627,7 @@ const RULES: Record<string, PairRule> = {
   'CHF/JPY': { refer: 'USD/JPY', calc: 'DIVISAO_JPY', pipFactor: 100 },
 }
 
-interface HantecInputs {
+export interface HantecInputs {
   INP_planCode: string
   INP_step: string
   INP_stopLossTrade: number
@@ -302,31 +637,29 @@ interface HantecInputs {
   INPPA_targetProfitLots: number
 }
 
-interface HantecOutputs {
+export interface HantecOutputs {
   OUTPA_targetProfitPoints: number
   OUTPA_stopLossPoints: number
   OUTRA_stopLossLots: number
 }
-function excelForexCalcWithNZDSpecial(pair: string, referPrice: number) {
-  const rule = RULES[pair]
-  if (!rule) throw new Error('Unknown pair: ' + pair)
+export function excelForexCalcWithNZDSpecial(
+  input: HantecInputs,
+  template: CalculationTemplate,
+  referPrice: number,
+): HantecOutputs {
+  const rule = RULES[input.INP_coinPair]
+  if (!rule) throw new Error('Unknown pair: ' + input.INP_coinPair)
 
-  // === Generic Excel-style logic (keeps your original behavior for other pairs) ===
-  const initialBalance = 100000
-  const targetPerc = 0.1
+  const targetPerc = template.targetPerc
   const price = referPrice
-  const targetProfitLots = 10
-  const currentBalance = 100000
+  const targetProfitLots = input.INPPA_targetProfitLots
+  const currentBalance = input.INP_currentBalance
   const currentTargetProfit = targetPerc * currentBalance
-  const targetProfitPoints = currentTargetProfit / targetProfitLots
-  const stopLossTrade = -1
-  const breachDownPerc = 10
-  const safeValue = 600
-  const comissionReal = 0
-  const STOP_MONEY = -1000
-  const TAKE_MONEY = 1000
+  const stopLossTrade = input.INP_stopLossTrade
+  const breachDownPerc = template.breachDownPerc
+  const safeValue = input.INP_safeValue
+  const comissionReal = template.commissionReal
   const riskyCapital = (currentBalance * stopLossTrade) / 100
-  const stopLossPoints = riskyCapital / targetProfitLots
   const pointsRA = riskyCapital / targetProfitLots
   let LOT: number
   let stopPoints: number
@@ -391,12 +724,23 @@ function excelForexCalcWithNZDSpecial(pair: string, referPrice: number) {
   const stopLossLots = LOT
 
   return {
-    stopLossPoints: Math.abs(stopPoints),
-    targetProfitPoints: Math.abs(takePoints),
-    stopLossLots: Number(stopLossLots.toFixed(2)),
+    OUTPA_stopLossPoints: Math.abs(stopPoints),
+    OUTPA_targetProfitPoints: Math.abs(takePoints),
+    OUTRA_stopLossLots: Number(stopLossLots.toFixed(2)),
   }
 }
-
 // Example usage:
-const res = excelForexCalcWithNZDSpecial('USD/JPY', 156.15)
+const res = excelForexCalcWithNZDSpecial(
+  {
+    INP_coinPair: 'USD/JPY',
+    INP_currentBalance: 100000,
+    INP_planCode: '7',
+    INP_safeValue: 600,
+    INP_step: '1',
+    INP_stopLossTrade: 1,
+    INPPA_targetProfitLots: 10,
+  },
+  template,
+  156.15,
+)
 console.log(res)

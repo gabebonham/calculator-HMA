@@ -13,10 +13,13 @@ export const calculationTemplates = pgTable('calculation_templates', {
     .$defaultFn(() => createId()),
 
   planDescription: text('plan_description').notNull(),
+  name: text('name').notNull(),
   initialBalance: doublePrecision('initial_balance').notNull(),
 
   target: doublePrecision().notNull(),
   breachDown: doublePrecision('breach_down').notNull(),
+  breachDownPerc: doublePrecision('breach_down_perc').notNull(),
+  targetPerc: doublePrecision('target_perc').notNull(),
   margemDD: doublePrecision('margem_dd').notNull(),
   targetProfit: doublePrecision('target_profit').notNull(),
   ddDay: doublePrecision('dd_day').notNull(),

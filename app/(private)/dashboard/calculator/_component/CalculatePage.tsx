@@ -8,15 +8,23 @@ import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import CalculationTemplateInfoCardUnchange from '../../_components/CalculationTemplateInfoCardUnchange'
 import { useState } from 'react'
-import { HantecOutputs } from '@/app/services/calculation.service'
+import { HantecOutputs } from '@/app/services/calculator.service'
 interface Props {
   calculationTemplate: any
+  coins: any[]
+  planRules: any[]
+  profileId: string
 }
 
-export default function CalculatePageComponent({ calculationTemplate }: Props) {
+export default function CalculatePageComponent({
+  calculationTemplate,
+  coins,
+  planRules,
+  profileId,
+}: Props) {
   const [output, setOutput] = useState<HantecOutputs | undefined>()
   return (
-    <div className="px-4 lg:px-8 py-6 space-y-6">
+    <div className="px-4 lg:px-8 py-6 space-y-6 h-full">
       <div>
         <Link href={'/dashboard'}>
           <Button className="flex items-center gap-x-2">
@@ -31,12 +39,18 @@ export default function CalculatePageComponent({ calculationTemplate }: Props) {
           Informe os parâmetros de seu trade para calcular os detalhes.
         </p>
       </div>
-      <div className="grid grid-cols-1 gap-y-4 lg:grid-cols-2 lg:gap-x-4">
-        <div className="h-full space-y-4">
-          <div>
-            <InputCard setOutput={setOutput} template={calculationTemplate} />
+      <div className="grid grid-cols-1 gap-y-4 lg:grid-cols-2 lg:gap-x-4 h-full  ">
+        <div className="flex flex-col gap-y-4 h-full items-stretch">
+          <div className="h-full">
+            <InputCard
+              profileId={profileId}
+              planRules={planRules}
+              coinPairs={coins}
+              setOutput={setOutput}
+              template={calculationTemplate}
+            />
           </div>
-          <div className="hidden lg:block">
+          <div className="hidden lg:block h-full">
             <OutputCard output={output} />
           </div>
         </div>

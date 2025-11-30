@@ -4,6 +4,7 @@ import 'dotenv/config'
 import { plans, profiles, users } from '../schema/index'
 import * as schema from '@/db/schema'
 import { hashPassword } from '@/lib/password'
+import { planRules } from '../schema/plan-rule'
 
 const pool = new Pool({
   connectionString: process.env.DB_URL,
@@ -141,6 +142,212 @@ async function main() {
     createdAt: new Date(),
     updatedAt: new Date(),
   })
+
+  await db.insert(planRules).values([
+    {
+      pair: 'EUR/USD',
+      refer: 'EUR/USD',
+      calc: 'DIRETO',
+      pipFactor: 1,
+    },
+    {
+      pair: 'GBP/USD',
+      refer: 'GBP/USD',
+      calc: 'DIRETO',
+      pipFactor: 1,
+    },
+    {
+      pair: 'AUD/USD',
+      refer: 'AUD/USD',
+      calc: 'DIRETO',
+      pipFactor: 1,
+    },
+    {
+      pair: 'NZD/USD',
+      refer: 'NZD/USD',
+      calc: 'DIRETO',
+      pipFactor: 1,
+    },
+
+    {
+      pair: 'USD/CAD',
+      refer: 'USD/CAD',
+      calc: 'DIVISAO',
+      pipFactor: 1,
+    },
+    {
+      pair: 'USD/CHF',
+      refer: 'USD/CHF',
+      calc: 'DIVISAO',
+      pipFactor: 1,
+    },
+    {
+      pair: 'USD/JPY',
+      refer: 'USD/JPY',
+      calc: 'DIVISAO_JPY',
+      pipFactor: 100,
+    },
+
+    {
+      pair: 'EUR/GBP',
+      refer: 'GBP/USD',
+      calc: 'MULT',
+      pipFactor: 1,
+    },
+    {
+      pair: 'EUR/AUD',
+      refer: 'AUD/USD',
+      calc: 'MULT_INT',
+      pipFactor: 1,
+    },
+    {
+      pair: 'EUR/NZD',
+      refer: 'NZD/USD',
+      calc: 'MULT_INT',
+      pipFactor: 1,
+    },
+    {
+      pair: 'EUR/JPY',
+      refer: 'USD/JPY',
+      calc: 'DIVISAO_JPY',
+      pipFactor: 100,
+    },
+    {
+      pair: 'EUR/CAD',
+      refer: 'USD/CAD',
+      calc: 'DIVISAO',
+      pipFactor: 1,
+    },
+    {
+      pair: 'EUR/CHF',
+      refer: 'USD/CHF',
+      calc: 'DIVISAO',
+      pipFactor: 1,
+    },
+
+    {
+      pair: 'GBP/AUD',
+      refer: 'AUD/USD',
+      calc: 'MULT_INT',
+      pipFactor: 1,
+    },
+    {
+      pair: 'GBP/NZD',
+      refer: 'NZD/USD',
+      calc: 'MULT_INT',
+      pipFactor: 1,
+    },
+    {
+      pair: 'GBP/JPY',
+      refer: 'USD/JPY',
+      calc: 'DIVISAO_JPY',
+      pipFactor: 100,
+    },
+    {
+      pair: 'GBP/CAD',
+      refer: 'USD/CAD',
+      calc: 'DIVISAO',
+      pipFactor: 1,
+    },
+    {
+      pair: 'GBP/CHF',
+      refer: 'USD/CHF',
+      calc: 'DIVISAO',
+      pipFactor: 1,
+    },
+
+    {
+      pair: 'AUD/NZD',
+      refer: 'NZD/USD',
+      calc: 'MULT_INT',
+      pipFactor: 1,
+    },
+    {
+      pair: 'AUD/JPY',
+      refer: 'USD/JPY',
+      calc: 'DIVISAO_JPY',
+      pipFactor: 100,
+    },
+    {
+      pair: 'AUD/CAD',
+      refer: 'USD/CAD',
+      calc: 'DIVISAO',
+      pipFactor: 1,
+    },
+    {
+      pair: 'AUD/CHF',
+      refer: 'USD/CHF',
+      calc: 'DIVISAO',
+      pipFactor: 1,
+    },
+
+    {
+      pair: 'NZD/JPY',
+      refer: 'USD/JPY',
+      calc: 'DIVISAO_JPY',
+      pipFactor: 100,
+    },
+    {
+      pair: 'NZD/CAD',
+      refer: 'USD/CAD',
+      calc: 'DIVISAO',
+      pipFactor: 1,
+    },
+    {
+      pair: 'NZD/CHF',
+      refer: 'USD/CHF',
+      calc: 'DIVISAO',
+      pipFactor: 1,
+    },
+
+    {
+      pair: 'CAD/JPY',
+      refer: 'USD/JPY',
+      calc: 'DIVISAO_JPY',
+      pipFactor: 100,
+    },
+    {
+      pair: 'CAD/CHF',
+      refer: 'USD/CHF',
+      calc: 'DIVISAO',
+      pipFactor: 1,
+    },
+    {
+      pair: 'CHF/JPY',
+      refer: 'USD/JPY',
+      calc: 'DIVISAO_JPY',
+      pipFactor: 100,
+    },
+  ])
+  await db.insert(schema.calculationTemplates).values({
+    planDescription: 'FTMO',
+    name: 'mainTemplate',
+
+    initialBalance: 100000,
+
+    target: 110000,
+    breachDown: 90000,
+    margemDD: 10000,
+    targetProfit: 10000,
+    ddDay: -5000,
+    breachDownPerc: 10,
+    targetPerc: 0.1,
+
+    leverageFunded: 30,
+    commissionFunded: 3,
+    leverageReal: 1000,
+    commissionReal: 0,
+
+    propFirmAccountNumber: '123456',
+    totalGasto: '0,00%',
+
+    targetProfitPA: 10000,
+    stopLossPA: -1000,
+
+    stopLossRA: 600,
+    takeRA: 60,
+  })
+
   console.log('Seeding finished!')
   process.exit(0)
 }

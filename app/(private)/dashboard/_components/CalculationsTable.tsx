@@ -14,8 +14,22 @@ interface Props {
   calculations: Calculation[]
 }
 export default function CalculationsTable({ calculations }: Props) {
+  const formatDate = (date: Date) => {
+    return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getMinutes()}:${date.getSeconds()}`
+  }
   return (
-    <div className="border-1 border-muted-foreground rounded-2xl px-3 py-1 overflow-y-auto max-h-96 ">
+    <div
+      className="border-1 border-muted-foreground/50 rounded-2xl px-3 py-1 overflow-y-auto w-full max-h-96 scrollbar 
+    scrollbar-thin
+
+    scrollbar-thumb-transparent
+    hover:scrollbar-thumb-gray-500
+
+    scrollbar-track-transparent
+    hover:scrollbar-track-transparent
+
+    transition-all duration-200"
+    >
       <Table>
         <TableHeader>
           <TableRow>
@@ -26,6 +40,7 @@ export default function CalculationsTable({ calculations }: Props) {
             <TableHead className="text-yellow-500">Safe Value</TableHead>
             <TableHead className="text-yellow-500">Current Balance</TableHead>
             <TableHead className="text-yellow-500">Coin Pair</TableHead>
+            <TableHead className="text-yellow-500">Coin Pair Value</TableHead>
             <TableHead className="text-yellow-500">
               Target Profit Lots
             </TableHead>
@@ -41,17 +56,14 @@ export default function CalculationsTable({ calculations }: Props) {
           {calculations &&
             calculations.map((calculation) => (
               <TableRow key={calculation.id} className="text-muted-foreground">
-                <TableCell>
-                  {new Intl.DateTimeFormat('pt-BR').format(
-                    new Date(calculation.createdAt),
-                  )}
-                </TableCell>
+                <TableCell>{formatDate(calculation.createdAt)}</TableCell>
                 <TableCell>{calculation.INP_planCode}</TableCell>
                 <TableCell>{calculation.INP_step}</TableCell>
                 <TableCell>{calculation.INP_stopLossTrade}</TableCell>
                 <TableCell>{calculation.INP_safeValue}</TableCell>
                 <TableCell>{calculation.INP_currentBalance}</TableCell>
                 <TableCell>{calculation.INP_coinPairValue}</TableCell>
+                <TableCell>{calculation.INP_coinPair}</TableCell>
                 <TableCell>{calculation.INPPA_targetProfitLots}</TableCell>
                 <TableCell>|</TableCell>
                 <TableCell>{calculation.OUTPA_targetProfitPoints}</TableCell>
@@ -60,7 +72,6 @@ export default function CalculationsTable({ calculations }: Props) {
               </TableRow>
             ))}
         </TableBody>
-        <TableCaption className="py-4">Lista de seus cálculos.</TableCaption>
       </Table>
     </div>
   )

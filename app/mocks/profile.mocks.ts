@@ -1,5 +1,4 @@
 import { Profile } from '../models/profile.entity'
-import { calculationsMock } from './calculation.mocks'
 import {
   basicPlanMock,
   premiumPlanMock,
@@ -17,7 +16,7 @@ export const mockProfiles: Profile[] = [
     'Alice Johnson',
     basicPlanMock.id,
     'alice@example.com',
-    calculationsMock,
+    [],
 
     new Date('2024-01-10'),
     basicPlanMock,
@@ -28,7 +27,7 @@ export const mockProfiles: Profile[] = [
     'Gabriel Souza',
     ultimatePlanMock.id,
     'gabriel@example.com',
-    calculationsMock,
+    [],
 
     new Date('2024-02-18'),
     ultimatePlanMock,
@@ -39,7 +38,7 @@ export const mockProfiles: Profile[] = [
     'Lucas Mendes',
     premiumPlanMock.id,
     'lucas@example.com',
-    calculationsMock,
+    [],
 
     new Date('2024-03-22'),
     premiumPlanMock,
@@ -50,7 +49,7 @@ export const mockProfiles: Profile[] = [
     'Mariana Silva',
     basicPlanMock.id,
     'mariana@example.com',
-    calculationsMock,
+    [],
 
     new Date('2024-04-05'),
     basicPlanMock,
@@ -61,7 +60,7 @@ export const mockProfiles: Profile[] = [
     'Carlos Pereira',
     ultimatePlanMock.id,
     'carlos@example.com',
-    calculationsMock,
+    [],
 
     new Date('2024-05-14'),
     ultimatePlanMock,
@@ -72,7 +71,7 @@ export const mockProfiles: Profile[] = [
     'Fernanda Lima',
     standardPlanMock.id,
     'fernanda@example.com',
-    calculationsMock,
+    [],
 
     new Date('2024-06-01'),
     standardPlanMock,
@@ -83,7 +82,7 @@ export const mockProfiles: Profile[] = [
     'Rafael Alves',
     standardPlanMock.id,
     'rafael@example.com',
-    calculationsMock,
+    [],
 
     new Date('2024-06-28'),
     standardPlanMock,
@@ -94,7 +93,7 @@ export const mockProfiles: Profile[] = [
     'Julia Castro',
     ultimatePlanMock.id,
     'julia@example.com',
-    calculationsMock,
+    [],
 
     new Date('2024-07-07'),
     ultimatePlanMock,
@@ -105,7 +104,7 @@ export const mockProfiles: Profile[] = [
     'Thiago Gomes',
     premiumPlanMock.id,
     'thiago@example.com',
-    calculationsMock,
+    [],
     new Date('2024-08-19'),
     premiumPlanMock,
   ),
@@ -115,7 +114,8 @@ export const mockProfiles: Profile[] = [
     'Beatriz Rocha',
     basicPlanMock.id,
     'beatriz@example.com',
-    calculationsMock,
+    [],
+
     new Date('2024-09-11'),
     basicPlanMock,
   ),

@@ -1,6 +1,7 @@
 import { Plan } from '../models/plan.entity'
 
 export function planMapper(plan: any) {
+  if (!plan) return undefined
   return {
     id: plan.id,
     name: plan.name,
@@ -13,5 +14,6 @@ export function planMapper(plan: any) {
   }
 }
 export function plansMapper(plans: any[]) {
+  if (!plans) return []
   return plans.map(planMapper)
 }

@@ -4,11 +4,16 @@ import { cookies } from 'next/headers'
 import { mockProfiles } from '../mocks/profile.mocks'
 import { JwtPayload } from 'jsonwebtoken'
 import { getTokenPayload } from './token.actions'
-import { sgetProfileByUserId } from '../services/profile.service'
+import {
+  sgetProfileById,
+  sgetProfileByUserId,
+  sgetProfiles,
+} from '../services/profile.service'
 
 export async function getProfiles() {
   try {
-    return { success: true, data: mockProfiles }
+    const res = await sgetProfiles()
+    return { success: res.success, data: res.data, error: res.error }
   } catch (e: any) {
     console.log(e)
     return { success: false, error: e }
@@ -16,10 +21,10 @@ export async function getProfiles() {
 }
 export async function getProfileById(id: string) {
   try {
-    const targetProfile = mockProfiles.find((profile) => profile.id == id)
+    const targetProfile = await sgetProfileById(id)
     if (!targetProfile)
       return { success: false, error: Error('Profile not found') }
-    else return { success: true, data: targetProfile }
+    else return { success: true, data: targetProfile.data }
   } catch (e: any) {
     console.log(e)
     return { success: false, error: e }

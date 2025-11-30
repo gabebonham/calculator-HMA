@@ -12,6 +12,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import DeleteUserModal from './modals/DeleteUserModal'
+import DeletePlanModal from './modals/DeletePlanModal'
+import EditPlanModal from './modals/EditPlanModal'
 interface Props {
   plans: Plan[]
 }
@@ -25,9 +28,19 @@ export default function PlansTable({ plans }: Props) {
     else return 'NDA'
   }
   return (
-    <div className="border-1 border-muted-foreground rounded-2xl px-3 py-1 max-h-96 overflow-y-auto">
+    <div
+      className="border-1 border-muted-foreground/50 rounded-2xl px-3 py-1 max-h-96 overflow-y-auto scrollbar scrollbar 
+    scrollbar-thin
+
+    scrollbar-thumb-transparent
+    hover:scrollbar-thumb-gray-500
+
+    scrollbar-track-transparent
+    hover:scrollbar-track-transparent
+
+    transition-all duration-200"
+    >
       <Table>
-        <TableCaption>Lista de seus planos.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Id</TableHead>
@@ -50,8 +63,8 @@ export default function PlansTable({ plans }: Props) {
                 <TableCell>{plan.color}</TableCell>
                 <TableCell>R$: {plan.price}</TableCell>
                 <TableCell className="text-right">
-                  <Button variant={'default'}>Editar</Button>
-                  <Button variant={'destructive'}>Deletar</Button>
+                  <EditPlanModal plan={plan} />
+                  <DeletePlanModal id={plan.id} />
                 </TableCell>
               </TableRow>
             ))}

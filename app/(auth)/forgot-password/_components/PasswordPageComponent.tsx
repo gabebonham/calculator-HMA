@@ -7,12 +7,13 @@ import { ChartNoAxesCombined, Eye, EyeClosed } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import SectionsComponent from './SectionsComponent'
-import {
-  sendCode,
-  updatePassword,
-  verifyCode,
-} from '../../_actions/auth.actions'
+import { sendCode, verifyCode } from '../../_actions/auth.actions'
 import ErrorDisplay from '@/components/shared/ErrorDisplay'
+import {
+  sendEmail,
+  updatePassword,
+  validateCode,
+} from '@/app/services/integration.service'
 
 export default function PasswordPageComponent() {
   const [section, setSection] = useState<string | undefined>('enter-email')
@@ -26,21 +27,21 @@ export default function PasswordPageComponent() {
       setSection('enter-email')
       return
     } else if (email && !password && !code) {
-      const res = await sendCode(email!)
+      const res = await sendEmail(email!)
       if (res.success) {
         setError(undefined)
         setSection('enter-code')
       } else {
-        setError(res.error)
+        setError(res.error as string)
       }
       return
     } else if (email && !password && code) {
-      const res = await verifyCode(code!, email!)
+      const res = await validateCode(email!, parseInt(code!))
       if (res.success) {
         setError(undefined)
         setSection('update-password')
       } else {
-        setError(res.error)
+        setError(res.error as string)
       }
       return
     } else {
@@ -49,7 +50,7 @@ export default function PasswordPageComponent() {
         setError(undefined)
         setSection('success')
       } else {
-        setError(res.error)
+        setError(res.error as string)
         setSection('failure')
       }
       return

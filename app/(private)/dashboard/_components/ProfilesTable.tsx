@@ -11,16 +11,28 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import DeleteUserModal from './modals/DeleteUserModal'
 interface Props {
   profiles: Profile[]
+  plans: any[]
 }
-export default function ProfilesTable({ profiles }: Props) {
+export default function ProfilesTable({ profiles, plans }: Props) {
   return (
-    <div className="border-1 border-muted-foreground rounded-2xl px-3 py-1 max-h-96 overflow-y-auto">
+    <div
+      className="border-1 border-muted-foreground/50 rounded-2xl px-3 py-1 max-h-96 overflow-y-auto scrollbar 
+    scrollbar-thin
+
+    scrollbar-thumb-transparent
+    hover:scrollbar-thumb-gray-500
+
+    scrollbar-track-transparent
+    hover:scrollbar-track-transparent
+
+    transition-all duration-200"
+    >
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Id</TableHead>
             <TableHead>Nome</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Criado em</TableHead>
@@ -32,7 +44,6 @@ export default function ProfilesTable({ profiles }: Props) {
           {profiles &&
             profiles.map((profile) => (
               <TableRow key={profile.id} className="text-muted-foreground">
-                <TableCell className="font-medium">{profile.id}</TableCell>
                 <TableCell>{profile.name}</TableCell>
                 <TableCell>{profile.email}</TableCell>
                 <TableCell>
@@ -41,15 +52,16 @@ export default function ProfilesTable({ profiles }: Props) {
                   )}
                 </TableCell>
                 <TableCell className="text-center">
-                  {profile.plan ? profile.plan.name : 'Sem Plano'}
+                  {plans.map((pl: any) => pl.id).includes(profile.planId)
+                    ? plans.find((pl: any) => pl.id == profile.planId).name
+                    : 'Sem Plano'}
                 </TableCell>
                 <TableCell className="text-right">
-                  <Button variant={'destructive'}>Deletar</Button>
+                  <DeleteUserModal id={profile.userId} />
                 </TableCell>
               </TableRow>
             ))}
         </TableBody>
-        <TableCaption className="py-4">Lista de seus usuários.</TableCaption>
       </Table>
     </div>
   )

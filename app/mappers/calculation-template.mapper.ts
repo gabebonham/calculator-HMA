@@ -5,7 +5,8 @@ export function calculationTemplateMapper(calculation: CalculationTemplate) {
     id: calculation.id,
     planDescription: calculation.planDescription,
     initialBalance: calculation.initialBalance,
-
+    breachDownPerc: calculation.breachDownPerc,
+    targetPerc: calculation.targetPerc,
     target: calculation.target,
     breachDown: calculation.breachDown,
     margemDD: calculation.margemDD,

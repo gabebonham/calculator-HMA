@@ -1,6 +1,6 @@
 'use client'
 
-import { HantecOutputs } from '@/app/services/calculation.service'
+import { HantecOutputs } from '@/app/services/calculator.service'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -13,7 +13,7 @@ export default function OutputCard({
 }) {
   return (
     <div className="h-full">
-      <Card className="px-4 lg:px-6 border-purple-500 border-2">
+      <Card className="px-4 lg:px-6 border-purple-500 border-2 h-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-12 lg:gap-x-8">
           <div className="space-y-4">
             <div className="space-y-2">

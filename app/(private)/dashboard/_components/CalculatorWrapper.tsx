@@ -7,8 +7,16 @@ import { AnyAaaaRecord } from 'node:dns'
 import LoadingScreen from '@/components/shared/Loading'
 interface Props {
   calculationTemplate: any
+  coins: any[]
+  planRules: any[]
+  profileId: string | undefined
 }
-export default function CalculatorWrapper({ calculationTemplate }: Props) {
+export default function CalculatorWrapper({
+  calculationTemplate,
+  coins,
+  planRules,
+  profileId,
+}: Props) {
   const { data: session, status } = useSession()
 
   if (status === 'loading') {
@@ -20,12 +28,18 @@ export default function CalculatorWrapper({ calculationTemplate }: Props) {
     name: session?.user.name as string,
     role: session?.user.role as string,
     plan: session?.user.plan,
+    profileId: session?.user.profileId,
     id: session?.user.id as string,
   }
   return (
     <div>
       <Header profile={profile} />
-      <CalculatePageComponent calculationTemplate={calculationTemplate} />
+      <CalculatePageComponent
+        profileId={profile.profileId!}
+        planRules={planRules}
+        coins={coins}
+        calculationTemplate={calculationTemplate}
+      />
     </div>
   )
 }
