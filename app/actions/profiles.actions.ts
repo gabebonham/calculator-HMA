@@ -5,9 +5,11 @@ import { mockProfiles } from '../mocks/profile.mocks'
 import { JwtPayload } from 'jsonwebtoken'
 import { getTokenPayload } from './token.actions'
 import {
+  screateProfile,
   sgetProfileById,
   sgetProfileByUserId,
   sgetProfiles,
+  supdatePlanByUserId,
 } from '../services/profile.service'
 
 export async function getProfiles() {
@@ -53,6 +55,29 @@ export async function getProfileByUserId(id: string) {
     if (!targetProfile.success)
       return { success: false, error: targetProfile.error }
     return { success: true, data: targetProfile.data }
+  } catch (e: any) {
+    console.log(e)
+    return { success: false, error: e }
+  }
+}
+export async function createProfile(
+  email: string,
+  name: string,
+  planId: string,
+  userId: string,
+) {
+  try {
+    const res = await screateProfile(email, name, planId, userId)
+    return res
+  } catch (e: any) {
+    console.log(e)
+    return { success: false, error: e }
+  }
+}
+export async function updatePlan(id: string, planId: string) {
+  try {
+    const res = await supdatePlanByUserId(id, planId)
+    return res
   } catch (e: any) {
     console.log(e)
     return { success: false, error: e }

@@ -41,3 +41,26 @@ export async function sgetProfiles() {
     return { success: false, error: e }
   }
 }
+export async function screateProfile(
+  email: string,
+  name: string,
+  planId: string,
+  userId: string,
+) {
+  try {
+    await db.insert(profiles).values({ email, name, planId, userId })
+    return { success: true }
+  } catch (e: any) {
+    console.log(e)
+    return { success: false, error: e }
+  }
+}
+export async function supdatePlanByUserId(id: string, planId: string) {
+  try {
+    await db.update(profiles).set({ planId }).where(eq(profiles.userId, id))
+    return { success: true }
+  } catch (e: any) {
+    console.log(e)
+    return { success: false, error: e }
+  }
+}

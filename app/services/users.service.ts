@@ -36,6 +36,7 @@ export async function findUserByEmail(email: string) {
     return { error: e, success: false }
   }
 }
+
 export async function supdateUser(id: string, email?: string, name?: string) {
   try {
     if (email != undefined) {
